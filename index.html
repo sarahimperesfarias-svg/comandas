@@ -1,1392 +1,645 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#190b10">
-<title>Entre Taças | Gestão de Eventos</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENTRE TAÇAS - Vendas</title>
 <style>
-:root{--wine:#641d35;--wine2:#8e3451;--rose:#d68b9e;--gold:#c9a66b;--ink:#1b1015;--muted:#8c7d82;--paper:#fbf8f6;--white:#fff;--line:#eee5e5;--green:#27775b;--red:#b64d5c;--shadow:0 14px 40px rgba(45,17,29,.08)}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:#f5f1ef;color:var(--ink);font-family:'DM Sans',sans-serif;min-height:100vh}
-button,input,select{font:inherit}
-button{cursor:pointer;border:0}
-button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #d7a4b2;outline-offset:2px}
-.app{display:grid;grid-template-columns:252px 1fr;min-height:100vh}
-.sidebar{background:linear-gradient(165deg,#190b10,#30121e 68%,#4b1a2d);color:#fff;padding:27px 18px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;z-index:5}
-.brand{padding:5px 12px 30px;border-bottom:1px solid #ffffff1c}
-.brand-mark{font-size:26px}
-.brand h1{font:800 25px 'Playfair Display',serif;letter-spacing:1px;margin:7px 0 2px}
-.brand h1 span{color:#e5b5c1}
-.brand small{color:#c5aab2;letter-spacing:2px;text-transform:uppercase;font-size:9px}
-.nav{display:grid;gap:7px;margin-top:26px}
-.nav button{display:flex;align-items:center;gap:13px;background:transparent;color:#d8c8ce;text-align:left;padding:13px 14px;border-radius:12px;font-weight:600;transition:.25s}
-.nav button:hover{background:#ffffff12;color:white;transform:translateX(3px)}
-.nav button.active{background:linear-gradient(100deg,#7b2944,#542035);color:#fff;box-shadow:0 8px 22px #09030755}
-.nav .ico{width:20px;text-align:center;font-size:17px}
-.side-bottom{margin-top:auto;color:#b99fa8;font-size:11px;padding:15px 12px;line-height:1.6}
-.main{min-width:0}
-.topbar{height:82px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 34px;gap:18px;position:sticky;top:0;z-index:4}
-.eyebrow{color:var(--wine2);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
-.topbar h2{font:700 23px 'Playfair Display',serif;margin:3px 0 0}
-.top-actions{display:flex;align-items:center;gap:10px}
-.event-select{border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;color:var(--ink);max-width:210px}
-.sync-pill{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:7px}
-.sync-pill:before{content:'';width:7px;height:7px;border-radius:50%;background:#c9a66b}
-.content{padding:30px 34px 55px;max-width:1500px;margin:auto}
-.page{display:none;animation:fade .35s ease}
-.page.active{display:block}
-@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.page-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:15px;margin-bottom:22px}
-.page-heading h2{font:700 27px 'Playfair Display',serif;margin:4px 0}
-.page-heading p{color:var(--muted);font-size:13px;margin:5px 0 0}
-.grid{display:grid;gap:17px}
-.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:20px}
-.stat,.panel{background:#fff;border:1px solid #eee6e5;border-radius:17px;box-shadow:var(--shadow)}
-.stat{padding:20px;position:relative;overflow:hidden}
-.stat:after{content:'';position:absolute;width:90px;height:90px;border-radius:50%;right:-35px;top:-38px;background:#f8edf0}
-.stat .label{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.7px;text-transform:uppercase}
-.stat strong{display:block;font:700 25px 'Playfair Display',serif;margin:10px 0 4px}
-.stat small{font-size:11px;color:var(--muted)}
-.stat .symbol{position:absolute;right:17px;bottom:17px;font-size:21px;opacity:.65}
-.panel{padding:22px;margin-bottom:18px}
-.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:17px}
-.panel h3{font:700 18px 'Playfair Display',serif;margin:0}
-.panel-sub{color:var(--muted);font-size:12px;margin-top:5px}
-.two-col{grid-template-columns:1.25fr .75fr}
-.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.field{display:grid;gap:6px;margin-bottom:11px}
-.field label{font-size:11px;font-weight:700;color:#6f5b63}
-.field input,.field select,.search{width:100%;border:1px solid #e9dfe1;background:#fff;border-radius:10px;padding:12px 13px;color:var(--ink);transition:.2s}
-.field input:focus,.field select:focus,.search:focus{border-color:#b76b82;box-shadow:0 0 0 3px #b76b8218;outline:0}
-.btn{padding:11px 16px;border-radius:10px;font-weight:700;font-size:12px;transition:.2s;display:inline-flex;align-items:center;justify-content:center;gap:7px}
-.btn:hover{transform:translateY(-2px);filter:brightness(1.06)}
-.primary{background:linear-gradient(120deg,var(--wine),var(--wine2));color:#fff;box-shadow:0 7px 16px #641d3525}
-.dark{background:#21141a;color:#fff}
-.soft{background:#f5eaed;color:var(--wine)}
-.success{background:#e8f4ee;color:var(--green)}
-.danger{background:#faecee;color:var(--red)}
-.gold{background:#f5efe4;color:#85652f}
-.full{width:100%}
-.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:15px}
-.toolbar .search{max-width:330px}
-.table-wrap{overflow-x:auto}
-table{border-collapse:collapse;width:100%;min-width:600px}
-th{text-align:left;color:#947f87;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:12px;border-bottom:1px solid var(--line)}
-td{padding:14px 12px;border-bottom:1px solid #f2ebeb;font-size:12px}
-tr:last-child td{border-bottom:0}
-.muted{color:var(--muted)}
-.badge{display:inline-flex;padding:5px 9px;border-radius:30px;font-size:10px;font-weight:700;background:#f4edf0;color:var(--wine)}
-.badge.ok{background:#e8f4ee;color:var(--green)}
-.badge.warn{background:#fff3df;color:#9a6b21}
-.actions{display:flex;gap:6px;flex-wrap:wrap}
-.icon-btn{background:#f5eff1;color:var(--wine);border-radius:8px;padding:7px 9px;font-size:11px}
-.product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-.product{border:1px solid var(--line);border-radius:13px;padding:15px;background:linear-gradient(145deg,#fff,#fcf7f8);text-align:left;transition:.2s}
-.product:hover{border-color:#c58b9c;transform:translateY(-3px);box-shadow:0 10px 22px #641d3514}
-.product b{display:block;font-size:13px;margin:8px 0 4px}
-.product small{color:var(--muted)}
-.product .price{font:700 18px 'Playfair Display',serif;color:var(--wine)}
-.cart-line{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:12px}
-.qty{display:flex;align-items:center;gap:8px}
-.qty button{background:#f3e9ec;color:var(--wine);width:25px;height:25px;border-radius:7px;font-weight:700}
-.total-box{display:flex;justify-content:space-between;align-items:center;background:#f8eff1;padding:15px;border-radius:12px;margin:15px 0;color:var(--wine)}
-.total-box strong{font:700 24px 'Playfair Display',serif}
-.payment-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.pay{padding:12px 6px;border:1px solid var(--line);background:#fff;border-radius:9px;font-size:11px;font-weight:700;color:#6b5960}
-.pay.selected{background:#641d35;color:#fff;border-color:#641d35}
-.empty{padding:25px;text-align:center;color:#a18f95;font-size:12px}
-.notice{background:#faf3e8;color:#87662f;padding:13px 15px;border-radius:11px;font-size:12px;margin-bottom:15px}
-.hero{background:linear-gradient(115deg,#28101b,#64243d);color:#fff;border-radius:18px;padding:25px;margin-bottom:18px;position:relative;overflow:hidden}
-.hero:after{content:'✦';position:absolute;right:35px;top:-25px;font-size:130px;color:#ffffff0c}
-.hero h2{font:700 26px 'Playfair Display',serif;margin:6px 0}
-.hero p{color:#e1cbd2;font-size:12px;margin:0}
-.hero .eyebrow{color:#e2bd8b}
-.modal-backdrop{position:fixed;inset:0;background:#14080dbb;display:none;align-items:center;justify-content:center;padding:18px;z-index:20}
-.modal-backdrop.show{display:flex}
-.modal{width:min(440px,100%);background:#fff;border-radius:18px;padding:24px;box-shadow:0 25px 80px #0005;animation:fade .25s}
-.modal h3{font:700 22px 'Playfair Display',serif;margin:0 0 6px}
-.modal p{font-size:12px;color:var(--muted);margin:0 0 18px}
-.toast{position:fixed;right:22px;bottom:22px;background:#21141a;color:#fff;padding:13px 18px;border-radius:11px;box-shadow:0 12px 30px #0003;font-size:12px;z-index:30;opacity:0;transform:translateY(10px);transition:.25s;pointer-events:none}
-.toast.show{opacity:1;transform:none}
-.mobile-menu{display:none}
-.intro{position:fixed;inset:0;background:radial-gradient(ellipse at center,#4a1b30 0%,#190910 60%,#0d070a 100%);z-index:50;display:flex;align-items:center;justify-content:center;text-align:center;color:white;padding:25px;transition:.7s}
-.intro.hide{opacity:0;visibility:hidden}
-.intro-inner{animation:fade 1s}
-.intro-icon{font-size:58px;filter:drop-shadow(0 0 18px #d68b9e);animation:float 3s ease-in-out infinite}
-@keyframes float{50%{transform:translateY(-9px)}}
-.intro h1{font:800 clamp(35px,7vw,58px) 'Playfair Display',serif;letter-spacing:2px;margin:12px 0 2px}
-.intro h1 span{color:#e5b5c1}
-.intro p{color:#dfcbd1;font-size:13px;letter-spacing:1px;margin:10px 0 25px}
-.intro button{background:linear-gradient(120deg,#8e3451,#c17b8e);color:white;padding:14px 28px;border-radius:30px;font-weight:700;box-shadow:0 8px 28px #c9184a44}
-.auth-status{font-size:10px;color:var(--muted);max-width:180px;text-align:right}
-.footnote{font-size:10px;color:#9d8c92;line-height:1.6;margin-top:12px}
-@media(max-width:1050px){.app{grid-template-columns:215px 1fr}.stats{grid-template-columns:repeat(2,1fr)}.content{padding:25px 22px}.topbar{padding:0 22px}.product-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:760px){.app{display:block}.sidebar{position:fixed;left:-270px;width:250px;transition:.3s;box-shadow:10px 0 40px #0003}.sidebar.open{left:0}.mobile-menu{display:inline-flex;background:#f5eaed;color:var(--wine);padding:10px;border-radius:9px}.topbar{height:72px;padding:0 15px}.topbar h2{font-size:19px}.event-select{max-width:145px;font-size:11px}.content{padding:20px 14px 40px}.stats{gap:10px}.stat{padding:15px}.stat strong{font-size:21px}.two-col{grid-template-columns:1fr}.page-heading{align-items:flex-start;flex-direction:column}.product-grid{grid-template-columns:repeat(2,1fr)}.auth-status{display:none}}
-@media(max-width:420px){.stats{grid-template-columns:1fr 1fr}.product-grid{grid-template-columns:1fr 1fr}.payment-grid{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:1fr}.top-actions{gap:5px}.event-select{max-width:125px;padding:9px 6px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#0d0d0d;color:#1a1a1a;overflow-x:hidden;position:relative}
+
+/* ===== VINHETA DE INICIAÇÃO - ANTES DE ENTRAR ===== */
+#intro{position:fixed;inset:0;z-index:9999;background:radial-gradient(ellipse at center, #1a050c 0%, #000 65%, #000 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;transition:opacity .8s ease, visibility .8s;overflow:hidden}
+#intro.sair{opacity:0;visibility:hidden;pointer-events:none}
+/* vinheta forte da intro */
+#intro::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,.7) 72%, rgba(60,5,18,.95) 100%);box-shadow:inset 0 0 140px rgba(107,15,42,.8), inset 0 0 80px rgba(0,0,0,.9);z-index:2}
+#intro::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 20%, rgba(201,24,74,.35) 0%, transparent 40%), radial-gradient(circle at 50% 90%, rgba(255,255,255,.08) 0%, transparent 30%);z-index:1}
+.intro-conteudo{position:relative;z-index:3;animation:entrarIntro 1s ease both}
+@keyframes entrarIntro{from{opacity:0;transform:translateY(20px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+.intro-taca{font-size:90px;animation:flutuar 2.5s ease-in-out infinite;filter:drop-shadow(0 0 25px #c9184a)}
+@keyframes flutuar{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-12px) rotate(3deg)}}
+.intro-logo{font-size:42px;font-weight:900;color:#fff;letter-spacing:2px;margin:10px 0 4px;line-height:1}
+.intro-logo span{color:#ff8fa3;text-shadow:0 0 18px #c9184a, 0 0 40px #ff4d6d, 0 0 70px #6b0f2a;animation:neonIntro 1.8s ease-in-out infinite alternate}
+@keyframes neonIntro{from{text-shadow:0 0 12px #c9184a}to{text-shadow:0 0 30px #ff4d6d, 0 0 60px #6b0f2a}}
+.intro-sub{color:#ffd6de;font-size:15px;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px}
+.intro-frase{color:#bbb;font-size:14px;margin:8px 0 22px;max-width:320px;line-height:1.5}
+.intro-barra{width:260px;height:8px;background:#222;border-radius:20px;overflow:hidden;margin:0 auto 22px;box-shadow:inset 0 0 8px #000}
+.intro-barra i{display:block;height:100%;width:0;background:linear-gradient(90deg,#6b0f2a,#ff4d6d,#fff);border-radius:20px;animation:carregar 2.2s ease forwards;box-shadow:0 0 15px #ff4d6d}
+@keyframes carregar{to{width:100%}}
+.btn-entrar{position:relative;overflow:hidden;background:linear-gradient(135deg,#6b0f2a,#c9184a);color:#fff;border:none;padding:18px 42px;border-radius:30px;font-size:18px;font-weight:900;cursor:pointer;box-shadow:0 0 30px rgba(201,24,74,.8);animation:pulsoEntrar 1.8s infinite}
+.btn-entrar::after{content:"";position:absolute;top:0;left:-80%;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);transform:skewX(-20deg);animation:brilhoPassando 2.2s infinite}
+@keyframes pulsoEntrar{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.intro-bolhas span{position:absolute;bottom:-30px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(255,180,195,.9), rgba(107,15,42,.7));box-shadow:0 0 16px rgba(201,24,74,.7);animation:subir linear infinite;z-index:1}
+.intro-bolhas span:nth-child(1){left:12%;width:14px;height:14px;animation-duration:6s}
+.intro-bolhas span:nth-child(2){left:28%;width:8px;height:8px;animation-duration:5s;animation-delay:1s}
+.intro-bolhas span:nth-child(3){left:48%;width:20px;height:20px;animation-duration:8s;animation-delay:.5s}
+.intro-bolhas span:nth-child(4){left:68%;width:10px;height:10px;animation-duration:6s;animation-delay:1.5s}
+.intro-bolhas span:nth-child(5){left:85%;width:16px;height:16px;animation-duration:7s;animation-delay:.2s}
+
+/* ===== RESTO DO SITE - IGUAL COMO ESTAVA ===== */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;background:radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.55) 82%, rgba(60,5,18,.85) 100%);box-shadow:inset 0 0 120px rgba(107,15,42,.55), inset 0 0 60px rgba(0,0,0,.8)}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:998;opacity:.35;background:radial-gradient(circle at 10% 20%, rgba(107,15,42,.35) 0%, transparent 30%), radial-gradient(circle at 90% 80%, rgba(201,24,74,.28) 0%, transparent 30%)}
+.bolhas{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+.bolhas span{position:absolute;bottom:-40px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(255,180,195,.9), rgba(107,15,42,.7));box-shadow:0 0 18px rgba(201,24,74,.7);animation:subir linear infinite}
+.bolhas span:nth-child(1){left:8%;width:14px;height:14px;animation-duration:9s}
+.bolhas span:nth-child(2){left:22%;width:8px;height:8px;animation-duration:7s;animation-delay:1s}
+.bolhas span:nth-child(3){left:38%;width:20px;height:20px;animation-duration:12s;animation-delay:2s}
+.bolhas span:nth-child(4){left:55%;width:10px;height:10px;animation-duration:8s;animation-delay:.5s}
+.bolhas span:nth-child(5){left:70%;width:16px;height:16px;animation-duration:11s;animation-delay:1.5s}
+.bolhas span:nth-child(6){left:85%;width:9px;height:9px;animation-duration:6s;animation-delay:.2s}
+.bolhas span:nth-child(7){left:92%;width:22px;height:22px;animation-duration:13s;animation-delay:3s}
+@keyframes subir{0%{transform:translateY(0);opacity:0}10%{opacity:1}100%{transform:translateY(-110vh) translateX(30px);opacity:0}}
+header{background:linear-gradient(180deg,#000,#1a050c);color:#fff;padding:16px;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #6b0f2a;position:relative;z-index:10;flex-wrap:wrap;gap:10px;overflow:hidden}
+header::after{content:"";position:absolute;top:0;left:-80%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);transform:skewX(-20deg);animation:brilhoPassando 4.5s ease-in-out infinite}
+@keyframes brilhoPassando{0%{left:-80%}55%{left:130%}100%{left:130%}}
+header b{font-size:22px;position:relative;z-index:2} header b span{color:#ff8fa3;text-shadow:0 0 18px #c9184a, 0 0 35px #6b0f2a;animation:neon 2.2s ease-in-out infinite alternate}
+@keyframes neon{from{text-shadow:0 0 12px #c9184a}to{text-shadow:0 0 28px #ff4d6d, 0 0 45px #6b0f2a}}
+.tabs{display:flex;gap:8px;padding:14px;flex-wrap:wrap;position:relative;z-index:10}
+.tabs button{background:#222;color:#fff;padding:12px 16px;border-radius:20px;border:none;cursor:pointer;position:relative;overflow:hidden}
+.tabs button.ativo{background:linear-gradient(135deg,#6b0f2a,#c9184a);box-shadow:0 0 20px rgba(201,24,74,.8)}
+.box{padding:0 14px 30px;position:relative;z-index:10}
+.card{background:linear-gradient(180deg,#fff,#fff8f9);border-radius:20px;padding:18px;margin-bottom:16px;position:relative;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.35);border:1px solid #f0d0d8;animation:entrar .5s ease both}
+@keyframes entrar{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.card::before{content:"";position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.65),transparent);transform:skewX(-18deg);animation:brilhoCard 6s ease-in-out infinite;pointer-events:none}
+@keyframes brilhoCard{0%,60%{left:-100%}80%,100%{left:140%}}
+.card::after{content:"🍷";position:absolute;top:10px;right:12px;font-size:18px;opacity:.25}
+.card h2{margin-bottom:10px}.card h2 span{color:#6b0f2a}
+input,select{width:100%;padding:12px;border:1.5px solid #ddd;border-radius:10px;margin-bottom:10px;font-size:15px;background:#fff}
+button{cursor:pointer;border:none;border-radius:14px;font-weight:800}
+.btnVinho{background:linear-gradient(135deg,#6b0f2a,#c9184a);color:#fff;width:100%;padding:14px;font-size:16px;position:relative;overflow:hidden;box-shadow:0 6px 20px rgba(107,15,42,.45);animation:pulso 2.5s infinite}
+.btnVinho::after{content:"";position:absolute;top:0;left:-80%;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);transform:skewX(-20deg);animation:brilhoPassando 3.2s infinite}
+@keyframes pulso{0%,100%{box-shadow:0 6px 20px rgba(107,15,42,.45)}50%{box-shadow:0 6px 28px rgba(201,24,74,.85)}}
+.btnPreto{background:#111;color:#fff;width:100%;padding:13px}
+.produtos{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.prod{background:linear-gradient(180deg,#fff,#fdf2f4);border:2px solid #eee;border-radius:14px;padding:14px;text-align:center;cursor:pointer;position:relative;overflow:hidden}
+.prod:hover{border-color:#c9184a;box-shadow:0 8px 20px rgba(201,24,74,.35)}
+.linha{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #eee;align-items:center;gap:8px;flex-wrap:wrap}
+.total{background:linear-gradient(135deg,#fdf2f4,#ffe3e9);border:2px solid #f0c8d0;padding:12px;text-align:center;font-size:24px;font-weight:900;color:#6b0f2a;border-radius:12px;margin:12px 0;position:relative;overflow:hidden}
+.total::after{content:"";position:absolute;top:0;left:-80%;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.7),transparent);animation:brilhoPassando 2.8s infinite}
+.pag{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.pag button{padding:18px;background:#eee;color:#111;font-size:16px}
+.pag button.sel{background:linear-gradient(135deg,#6b0f2a,#c9184a)!important;color:#fff!important;box-shadow:0 0 18px rgba(201,24,74,.7)}
+.whats{background:#25D366!important;color:#fff!important;padding:9px 13px;border-radius:20px;box-shadow:0 0 14px rgba(37,211,102,.6)}
+.mini{padding:8px 10px;background:#eee}
+.barra{height:22px;background:linear-gradient(90deg,#6b0f2a,#ff4d6d);border-radius:8px;margin:4px 0}
+.barra2{height:22px;background:#111;border-radius:8px;margin:4px 0}
+.barra3{height:22px;background:#999;border-radius:8px;margin:4px 0}
+.alerta{background:linear-gradient(135deg,#fff3cd,#fff8d6);border:2px solid #ffca2c;padding:12px;border-radius:12px;margin-bottom:12px;font-weight:700}
+.verdeBox{background:linear-gradient(135deg,#d1e7dd,#e8f8ee);border:2px solid #25D366;padding:12px;border-radius:12px;margin-bottom:12px;font-weight:700;position:relative;overflow:hidden}
 </style>
 </head>
-
 <body>
-<div class="intro" id="intro">
- <div class="intro-inner">
-  <div class="intro-icon">🍷</div>
-  <div class="eyebrow">HUB DE EVENTOS</div>
-  <h1>ENTRE <span>TAÇAS</span></h1>
-  <p>Gestão inteligente. Eventos inesquecíveis.</p>
-  <button id="enterBtn">ENTRAR NA PLATAFORMA&nbsp; →</button>
- </div>
+
+<!-- ===== VINHETA DE INICIAÇÃO ===== -->
+<div id="intro">
+  <div class="intro-bolhas"><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="intro-conteudo">
+    <div class="intro-taca">🍷</div>
+    <div class="intro-sub">Hub de Eventos</div>
+    <div class="intro-logo">ENTRE<br><span>TAÇAS</span></div>
+    <p class="intro-frase">Vendas • Fiados • Cobrança automática no WhatsApp<br>Controle seu evento do início ao lucro.</p>
+    <div class="intro-barra"><i></i></div>
+    <button class="btn-entrar" id="btnEntrar">✨ ENTRAR NO SITE</button>
+    <p style="color:#777;font-size:12px;margin-top:14px">Toque para entrar</p>
+  </div>
 </div>
 
-<div class="app">
-<aside class="sidebar" id="sidebar">
- <div class="brand">
-  <div class="brand-mark">🍷</div>
-  <h1>ENTRE <span>TAÇAS</span></h1>
-  <small>Gestão de eventos</small>
- </div>
+<div class="bolhas"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
 
- <nav class="nav">
-  <button class="active" data-page="dashboard"><span class="ico">◈</span> Visão geral</button>
-  <button data-page="pdv"><span class="ico">▣</span> Ponto de venda</button>
-  <button data-page="clients"><span class="ico">♙</span> Clientes</button>
-  <button data-page="products"><span class="ico">◇</span> Produtos</button>
-  <button data-page="debts"><span class="ico">◷</span> Fiados e cobranças</button>
-  <button data-page="expenses"><span class="ico">▤</span> Despesas</button>
-  <button data-page="reports"><span class="ico">▥</span> Relatórios</button>
-  <button data-page="settings"><span class="ico">⚙</span> Configurações</button>
- </nav>
+<header><div><b>🍷 ENTRE <span>TAÇAS</span></b></div><select id="selEvento" style="width:180px;margin:0"></select></header>
 
- <div class="side-bottom">ENTRE TAÇAS<br>Organização em cada detalhe.<br><span id="sideMode">Modo local</span></div>
-</aside>
-
-<main class="main">
- <header class="topbar">
-  <div style="display:flex;align-items:center;gap:12px">
-   <button class="mobile-menu" id="menuBtn">☰</button>
-   <div>
-    <div class="eyebrow">PAINEL DE CONTROLE</div>
-    <h2 id="pageTitle">Visão geral</h2>
-   </div>
-  </div>
-  <div class="top-actions">
-   <select class="event-select" id="eventSelect" aria-label="Selecionar evento"></select>
-   <div class="auth-status" id="authStatus">Dados salvos neste navegador</div>
-   <button class="btn soft" id="quickEvent">＋ Evento</button>
-  </div>
- </header>
-
- <div class="content">
-
-  <section class="page active" id="page-dashboard">
-   <div class="hero">
-    <div class="eyebrow">SEJA BEM-VINDA(O)</div>
-    <h2>Seu evento, sob controle.</h2>
-    <p>Acompanhe resultados, organize vendas e mantenha tudo em um só lugar.</p>
-   </div>
-
-   <div class="grid stats">
-    <div class="stat"><div class="label">Vendas realizadas</div><strong id="sSales">R$ 0,00</strong><small>Faturamento total do evento</small><span class="symbol">↗</span></div>
-    <div class="stat"><div class="label">Já recebido</div><strong id="sReceived">R$ 0,00</strong><small>Pagamentos confirmados</small><span class="symbol">✓</span></div>
-    <div class="stat"><div class="label">Em aberto</div><strong id="sDebt">R$ 0,00</strong><small>Valores pendentes</small><span class="symbol">◷</span></div>
-    <div class="stat"><div class="label">Resultado estimado</div><strong id="sProfit">R$ 0,00</strong><small>Vendas menos despesas</small><span class="symbol">✦</span></div>
-   </div>
-
-   <div class="grid two-col">
-    <div class="panel">
-     <div class="panel-head">
-      <div><h3>Movimentação financeira</h3><div class="panel-sub">Resumo do evento selecionado</div></div>
-      <span class="badge">EM TEMPO REAL</span>
-     </div>
-     <div id="dashboardBars"></div>
-    </div>
-
-    <div class="panel">
-     <div class="panel-head"><div><h3>Acesso rápido</h3><div class="panel-sub">Ações frequentes</div></div></div>
-     <div class="grid">
-      <button class="btn primary full" data-goto="pdv">＋ Registrar uma venda</button>
-      <button class="btn soft full" data-goto="clients">＋ Cadastrar cliente</button>
-      <button class="btn soft full" data-goto="expenses">＋ Lançar despesa</button>
-      <button class="btn gold full" data-goto="debts">Ver valores pendentes →</button>
-     </div>
-    </div>
-   </div>
-
-   <div class="panel">
-    <div class="panel-head">
-     <div><h3>Últimas movimentações</h3><div class="panel-sub">Vendas registradas neste evento</div></div>
-     <button class="btn soft" data-goto="reports">Ver relatório</button>
-    </div>
-    <div id="recentSales"></div>
-   </div>
-  </section>
-
-  <section class="page" id="page-pdv">
-   <div class="page-heading">
-    <div><div class="eyebrow">OPERAÇÃO DE VENDAS</div><h2>Ponto de venda</h2><p>Monte a comanda, selecione o cliente e finalize a venda.</p></div>
-   </div>
-
-   <div class="grid two-col">
-    <div class="panel">
-     <div class="panel-head"><div><h3>Catálogo de produtos</h3><div class="panel-sub">Selecione para adicionar à comanda</div></div></div>
-     <input class="search" id="productSearch" placeholder="Buscar produto..." style="margin-bottom:14px">
-     <div class="grid product-grid" id="pdvProducts"></div>
-    </div>
-
-    <div class="panel">
-     <div class="panel-head"><div><h3>Nova comanda</h3><div class="panel-sub">Resumo da compra</div></div><span class="badge" id="cartCount">0 itens</span></div>
-     <div class="field"><label>CLIENTE</label><select id="saleClient"><option value="">Selecione um cliente</option></select></div>
-     <div id="cartLines"><div class="empty">Sua comanda está vazia.</div></div>
-     <div class="total-box"><span>Total da comanda</span><strong id="cartTotal">R$ 0,00</strong></div>
-
-     <div class="field">
-      <label>FORMA DE PAGAMENTO</label>
-      <div class="payment-grid" id="paymentMethods">
-       <button class="pay selected" data-pay="Dinheiro">💵 Dinheiro</button>
-       <button class="pay" data-pay="Pix">⚡ Pix</button>
-       <button class="pay" data-pay="Crédito">💳 Crédito</button>
-       <button class="pay" data-pay="Débito">💳 Débito</button>
-       <button class="pay" data-pay="Fiado">◷ Fiado</button>
-       <button class="pay" data-pay="Outro">Outro</button>
-      </div>
-     </div>
-
-     <button class="btn primary full" id="finishSale">✓ Finalizar venda</button>
-     <button class="btn soft full" id="clearCart" style="margin-top:8px">Limpar comanda</button>
-     <div class="footnote">A venda será vinculada ao evento selecionado.</div>
-    </div>
-   </div>
-  </section>
-
-  <section class="page" id="page-clients">
-   <div class="page-heading">
-    <div><div class="eyebrow">RELACIONAMENTO</div><h2>Clientes</h2><p>Cadastre e mantenha os contatos organizados.</p></div>
-    <button class="btn primary" id="newClient">＋ Novo cliente</button>
-   </div>
-   <div class="panel">
-    <div class="toolbar"><input class="search" id="clientSearch" placeholder="Buscar por nome ou telefone..."></div>
-    <div id="clientsTable"></div>
-   </div>
-  </section>
-
-  <section class="page" id="page-products">
-   <div class="page-heading">
-    <div><div class="eyebrow">CATÁLOGO</div><h2>Produtos</h2><p>Gerencie itens, custos e preços de venda.</p></div>
-    <button class="btn primary" id="newProduct">＋ Novo produto</button>
-   </div>
-   <div class="panel">
-    <div class="toolbar"><input class="search" id="manageProductSearch" placeholder="Buscar produto..."></div>
-    <div id="productsTable"></div>
-   </div>
-  </section>
-
-  <section class="page" id="page-debts">
-   <div class="page-heading">
-    <div><div class="eyebrow">CONTROLE DE RECEBÍVEIS</div><h2>Fiados e cobranças</h2><p>Acompanhe pendências e registre pagamentos.</p></div>
-   </div>
-   <div class="notice" id="debtNotice">Nenhum valor pendente neste evento.</div>
-   <div class="panel">
-    <div class="panel-head">
-     <div><h3>Contas em aberto</h3><div class="panel-sub">Você decide quando enviar a cobrança pelo WhatsApp.</div></div>
-     <button class="btn success" id="copyDebts">Copiar resumo</button>
-    </div>
-    <div id="debtsTable"></div>
-   </div>
-  </section>
-
-  <section class="page" id="page-expenses">
-   <div class="page-heading">
-    <div><div class="eyebrow">CONTROLE DE CUSTOS</div><h2>Despesas</h2><p>Registre os gastos vinculados ao evento atual.</p></div>
-   </div>
-   <div class="grid two-col">
-    <div class="panel">
-     <h3 style="margin-bottom:17px">Lançar despesa</h3>
-     <div class="field"><label>DESCRIÇÃO</label><input id="expenseDesc" placeholder="Ex.: Compra de bebidas"></div>
-     <div class="field"><label>VALOR (R$)</label><input id="expenseValue" type="number" min=".01" step=".01" placeholder="0,00"></div>
-     <button class="btn primary full" id="addExpense">＋ Registrar despesa</button>
-    </div>
-    <div class="panel">
-     <div class="panel-head"><div><h3>Despesas do evento</h3><div class="panel-sub">Lançamentos registrados</div></div><span class="badge" id="expenseTotal">R$ 0,00</span></div>
-     <div id="expensesList"></div>
-    </div>
-   </div>
-  </section>
-
-  <section class="page" id="page-reports">
-   <div class="page-heading">
-    <div><div class="eyebrow">ANÁLISE E RESULTADOS</div><h2>Relatórios</h2><p>Visão consolidada da movimentação do evento.</p></div>
-    <button class="btn primary" id="exportReport">⇩ Exportar CSV</button>
-   </div>
-   <div class="grid stats">
-    <div class="stat"><div class="label">Faturamento</div><strong id="rSales">R$ 0,00</strong></div>
-    <div class="stat"><div class="label">Recebido</div><strong id="rReceived">R$ 0,00</strong></div>
-    <div class="stat"><div class="label">Pendências</div><strong id="rDebt">R$ 0,00</strong></div>
-    <div class="stat"><div class="label">Despesas</div><strong id="rExpenses">R$ 0,00</strong></div>
-   </div>
-   <div class="panel">
-    <div class="panel-head"><div><h3>Histórico de vendas</h3><div class="panel-sub">Detalhamento das comandas</div></div><button class="btn soft" id="copyReport">Copiar relatório</button></div>
-    <div id="salesTable"></div>
-   </div>
-   <div class="panel">
-    <div class="panel-head"><div><h3>Resumo de eventos</h3><div class="panel-sub">Comparativo de resultados cadastrados</div></div></div>
-    <div id="eventsReport"></div>
-   </div>
-  </section>
-
-  <section class="page" id="page-settings">
-   <div class="page-heading">
-    <div><div class="eyebrow">PREFERÊNCIAS E DADOS</div><h2>Configurações</h2><p>Gerencie eventos, conexão e segurança dos seus dados.</p></div>
-   </div>
-
-   <div class="grid two-col">
-    <div class="panel">
-     <h3 style="margin-bottom:15px">Novo evento</h3>
-     <div class="field"><label>NOME DO EVENTO</label><input id="eventName" placeholder="Ex.: Festa de encerramento"></div>
-     <div class="field"><label>DATA</label><input id="eventDate" type="date"></div>
-     <button class="btn primary full" id="createEvent">＋ Criar evento</button>
-     <div style="margin-top:20px" id="eventList"></div>
-    </div>
-
-    <div class="panel">
-     <h3>Conexão com Supabase</h3>
-     <p class="panel-sub" style="line-height:1.7;margin:8px 0 15px">Conecte seu projeto para sincronizar os dados entre dispositivos. A autenticação é feita pela sua conta Supabase.</p>
-     <div class="badge" id="connectionBadge">MODO LOCAL</div>
-     <div class="field" style="margin-top:15px"><label>SUPABASE PROJECT URL</label><input id="sbUrl" placeholder="https://seu-projeto.supabase.co"></div>
-     <div class="field"><label>SUPABASE ANON / PUBLISHABLE KEY</label><input id="sbKey" placeholder="Sua chave pública (anon)"></div>
-     <button class="btn primary full" id="connectSupabase">Salvar conexão</button>
-     <div class="footnote">Nunca coloque a service_role key no navegador. Use apenas a chave pública e políticas RLS.</div>
-
-     <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
-
-     <h3 style="margin-bottom:12px">Conta Supabase</h3>
-     <div class="field"><label>E-MAIL</label><input id="authEmail" type="email" placeholder="seu@email.com"></div>
-     <div class="field"><label>SENHA</label><input id="authPassword" type="password" placeholder="Sua senha"></div>
-     <div class="grid" style="grid-template-columns:1fr 1fr">
-      <button class="btn dark" id="signIn">Entrar</button>
-      <button class="btn soft" id="signUp">Criar conta</button>
-     </div>
-     <button class="btn danger full" id="signOut" style="margin-top:9px">Sair da conta</button>
-     <p class="footnote" id="authMessage">Configure a conexão para habilitar o acesso.</p>
-    </div>
-   </div>
-
-   <div class="panel">
-    <h3>Armazenamento local</h3>
-    <p class="panel-sub" style="margin:8px 0 15px">Sem Supabase, os dados ficam salvos neste navegador e dispositivo.</p>
-    <div class="actions">
-     <button class="btn soft" id="backupData">Baixar backup JSON</button>
-     <label class="btn soft" for="restoreFile">Restaurar backup</label>
-     <input id="restoreFile" type="file" accept="application/json" hidden>
-     <button class="btn danger" id="resetData">Restaurar dados de demonstração</button>
-    </div>
-   </div>
-  </section>
-
- </div>
-</main>
+<div class="tabs">
+<button data-aba="pdv" class="ativo">🛒 PDV</button>
+<button data-aba="clientes">👤 Clientes</button>
+<button data-aba="produtos">📦 Produtos</button>
+<button data-aba="fiados">⚠️ Fiados + Cobrança Auto</button>
+<button data-aba="recebidos">💰 Recebidos</button>
+<button data-aba="despesas">🧾 Despesas</button>
+<button data-aba="resumo">📊 Resumo</button>
 </div>
 
-<div class="modal-backdrop" id="modal">
- <div class="modal">
-  <h3 id="modalTitle">Cadastro</h3>
-  <p id="modalDescription">Preencha as informações abaixo.</p>
-  <div id="modalFields"></div>
-  <div class="actions" style="justify-content:flex-end;margin-top:14px">
-   <button class="btn soft" id="modalCancel">Cancelar</button>
-   <button class="btn primary" id="modalSave">Salvar</button>
-  </div>
- </div>
+<div class="box">
+<div id="aba-pdv">
+<div class="card"><h2>Novo <span>Evento</span></h2><input id="nEvento" placeholder="Ex: Festa Junina"><input id="dEvento" type="date"><button class="btnVinho" id="btnEvento">+ CRIAR EVENTO</button></div>
+<div class="card"><h2>Novo <span>Cliente</span></h2><input id="nCliente" placeholder="Nome ex: Vitória"><input id="tCliente" placeholder="WhatsApp só números ex: 5541999999999"><button class="btnPreto" id="btnCliente">+ CADASTRAR CLIENTE</button></div>
+<div class="card"><h2>🛒 Comanda</h2>
+<input id="buscaCliente" placeholder="🔍 Buscar cliente na comanda...">
+<select id="selCliente"><option value="">Selecione o cliente...</option></select>
+<div class="produtos" id="listaProd"></div>
+<div id="comanda"><p style="color:#888">Clique em um produto para adicionar.</p></div>
+<div class="total" id="totalTxt">Total: R$ 0,00</div>
+<p><b>👆 Toque na forma de pagamento:</b></p>
+<div class="pag" id="boxPag">
+<button data-pag="Dinheiro">💵 DINHEIRO</button>
+<button data-pag="Pix">⚡ PIX</button>
+<button data-pag="Crédito">💳 CRÉDITO</button>
+<button data-pag="Débito">💳 DÉBITO</button>
+<button data-pag="Fiado">⚠️ FIADO</button>
+<button data-pag="Outro">🧾 OUTRO</button>
+</div>
+<button class="btnVinho" id="btnFechar" style="margin-top:14px">✅ FECHAR COMANDA</button>
+<button class="btnPreto" id="btnLimpar" style="margin-top:8px;background:#eee;color:#111">Limpar comanda</button>
+<p id="msg" style="margin-top:10px;color:#6b0f2a;font-weight:800"></p>
+</div>
 </div>
 
-<div class="toast" id="toast"></div>
+<div id="aba-clientes" style="display:none"><div class="card"><h2>👤 Clientes Cadastrados</h2><input id="buscaClienteTab" placeholder="🔍 Buscar cliente..."><div id="listaClientes"></div></div></div>
+<div id="aba-produtos" style="display:none"><div class="card"><h2>📦 Cadastrar Produto</h2><input id="pNome" placeholder="Ex: Refrigerante"><input id="pPreco" type="number" placeholder="Preço venda ex: 6"><input id="pCusto" type="number" placeholder="Custo ex: 3"><button class="btnVinho" id="btnProd">+ CADASTRAR PRODUTO</button><div id="listaProdTab" style="margin-top:12px"></div></div></div>
+
+<div id="aba-fiados" style="display:none">
+<div class="card"><h2>⚠️ Fiados + Cobrança Automática</h2>
+<div class="verdeBox">🤖 COBRANÇA AUTOMÁTICA ATIVA: Ao lançar fiado, o WhatsApp abre sozinho. <br><button id="btnAuto" style="background:#111;color:#fff;padding:10px 14px;margin-top:8px">🔔 DESLIGAR COBRANÇA AUTO</button></div>
+<div class="alerta" id="alertaFiado"></div>
+<button class="btnVinho" id="btnCobrarTodos" style="background:#25D366">💬 COBRAR TODOS AUTOMATICAMENTE</button>
+<button class="btnPreto" id="btnCopiarTexto" style="margin-top:8px">📋 COPIAR TEXTO DE COBRANÇA GERAL</button>
+<div id="listaFiados" style="margin-top:14px"></div>
+</div></div>
+
+<div id="aba-recebidos" style="display:none"><div class="card"><h2>💰 Recebidos</h2><div id="listaRecebidos"></div><div style="margin-top:12px"><button class="btnPreto" id="btnExportar">📤 COPIAR RELATÓRIO PARA WHATSAPP</button></div></div></div>
+<div id="aba-despesas" style="display:none"><div class="card"><h2>🧾 Despesas</h2><input id="dDesc" placeholder="Ex: 50 refrigerantes"><input id="dValor" type="number" min="0.01" step="0.01" placeholder="Custo da compra (ex: 150)"><input id="dPrecoVenda" type="number" min="0.01" step="0.01" placeholder="Preço de venda do produto (ex: 6)"><small style="display:block;color:#666;margin:-4px 0 10px">Ao lançar, a descrição será cadastrada automaticamente em Produtos, usando o valor da despesa como custo.</small><button class="btnVinho" id="btnDesp">+ LANÇAR DESPESA</button><div id="listaDesp" style="margin-top:12px"></div></div></div>
+<div id="aba-resumo" style="display:none"><div class="card"><h2>📊 Resumo - <span id="nomeResumo"></span></h2><div id="cardsResumo"></div><div id="grafResumo" style="margin-top:14px"></div><div id="tabelaResumo" style="margin-top:14px"></div><div id="rankingDevedores" style="margin-top:14px"></div></div></div>
+</div>
 
 <script>
-'use strict';
-
-const SUPABASE_TABLE='entre_tacas_data';
-const $=id=>document.getElementById(id);
-const money=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-const uid=()=>Date.now()+Math.floor(Math.random()*1000);
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const today=()=>new Date().toISOString().slice(0,10);
-
-const seed=()=>({
- events:[{id:1,name:'Evento de demonstração',date:today()}],
- clients:[],
- products:[
-  {id:1,name:'Refrigerante',price:6,cost:3},
-  {id:2,name:'Espeto',price:12,cost:6},
-  {id:3,name:'Doce',price:5,cost:2}
- ],
- sales:[],
- expenses:[]
-});
-
-let data=JSON.parse(localStorage.getItem('entreTacasData')||'null')||seed();
-let eventId=data.events[0]?.id||null;
-let cart=[];
-let payment='Dinheiro';
-let sb=null;
-let user=null;
-let modalSaveAction=null;
-
-function toast(t){
- $('toast').textContent=t;
- $('toast').classList.add('show');
- setTimeout(()=>$('toast').classList.remove('show'),2600);
-}
-
-function activeEvent(){
- return data.events.find(e=>String(e.id)===String(eventId));
-}
-
-function eventSales(){
- return data.sales.filter(s=>String(s.eventId)===String(eventId));
-}
-
-function eventExpenses(){
- return data.expenses.filter(e=>String(e.eventId)===String(eventId));
-}
-
-function sum(a,fn){
- return a.reduce((n,x)=>n+fn(x),0);
-}
-
-function debts(){
- return eventSales().filter(s=>!s.paid);
-}
-
-function customerDebt(id){
- return sum(data.sales.filter(s=>String(s.clientId)===String(id)&&!s.paid),s=>s.balance??s.total);
-}
-
-function save(){
- localStorage.setItem('entreTacasData',JSON.stringify(data));
-
- if(sb&&user){
-  clearTimeout(save.timer);
-  save.timer=setTimeout(async()=>{
-   const {error}=await sb.from(SUPABASE_TABLE).upsert({
-    user_id:user.id,
-    data,
-    updated_at:new Date().toISOString()
-   },{onConflict:'user_id'});
-
-   if(error){
-    toast('Falha ao sincronizar: '+error.message);
-   }else{
-    $('authStatus').textContent='Sincronizado com Supabase';
-   }
-  },450);
- }
-
- render();
-}
-
-function setEventOptions(){
- const sel=$('eventSelect');
- sel.innerHTML=data.events.map(e=>`<option value="${e.id}">${esc(e.name)} · ${esc(e.date)}</option>`).join('')||'<option value="">Nenhum evento</option>';
- sel.value=eventId??'';
-}
-
-function go(page){
- document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+page));
- document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
-
- const labels={
-  dashboard:'Visão geral',
-  pdv:'Ponto de venda',
-  clients:'Clientes',
-  products:'Produtos',
-  debts:'Fiados e cobranças',
-  expenses:'Despesas',
-  reports:'Relatórios',
-  settings:'Configurações'
- };
-
- $('pageTitle').textContent=labels[page]||'Entre Taças';
- $('sidebar').classList.remove('open');
- render();
-}
-
-function eventStats(){
- const sales=eventSales();
- const expenses=eventExpenses();
- const total=sum(sales,s=>s.total);
- const received=sum(sales.filter(s=>s.paid),s=>s.total);
- const debt=sum(sales.filter(s=>!s.paid),s=>s.balance??s.total);
- const cost=sum(expenses,e=>e.value);
-
- return{
-  sales:total,
-  received,
-  debt,
-  expenses:cost,
-  profit:total-cost
- };
-}
-
-function render(){
- setEventOptions();
-
- const st=eventStats();
-
- $('sSales').textContent=money(st.sales);
- $('sReceived').textContent=money(st.received);
- $('sDebt').textContent=money(st.debt);
- $('sProfit').textContent=money(st.profit);
-
- $('rSales').textContent=money(st.sales);
- $('rReceived').textContent=money(st.received);
- $('rDebt').textContent=money(st.debt);
- $('rExpenses').textContent=money(st.expenses);
-
- $('dashboardBars').innerHTML=[
-  ['Vendas',st.sales,'#81334e'],
-  ['Recebido',st.received,'#39866a'],
-  ['Despesas',st.expenses,'#c9a66b'],
-  ['Em aberto',st.debt,'#bd7a43']
- ].map(([n,v,c])=>`
-  <div style="margin:13px 0">
-   <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:6px">
-    <b>${n}</b><span>${money(v)}</span>
-   </div>
-   <div style="height:8px;background:#f3edef;border-radius:20px;overflow:hidden">
-    <div style="height:100%;width:${st.sales?Math.min(100,v/Math.max(st.sales,st.expenses,1)*100):0}%;background:${c};border-radius:20px;transition:width .5s"></div>
-   </div>
-  </div>
- `).join('');
-
- $('recentSales').innerHTML=eventSales().slice(-5).reverse().map(s=>`
-  <div class="cart-line">
-   <span>
-    <b>${esc(s.clientName)}</b><br>
-    <small class="muted">${esc(s.itemsText)} · ${esc(s.date)}</small>
-   </span>
-   <span style="text-align:right">
-    <b>${money(s.total)}</b><br>
-    <span class="badge ${s.paid?'ok':'warn'}">${s.paid?esc(s.payment):'Fiado'}</span>
-   </span>
-  </div>
- `).join('')||'<div class="empty">As vendas deste evento aparecerão aqui.</div>';
-
- const clientOpts=data.clients.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('');
- $('saleClient').innerHTML='<option value="">Selecione um cliente</option>'+clientOpts;
-
- $('pdvProducts').innerHTML=data.products.filter(p=>p.name.toLowerCase().includes(($('productSearch').value||'').toLowerCase())).map(p=>`
-  <button class="product" data-add="${p.id}">
-   <span style="font-size:19px">◇</span>
-   <b>${esc(p.name)}</b>
-   <span class="price">${money(p.price)}</span><br>
-   <small>Adicionar à comanda +</small>
-  </button>
- `).join('')||'<div class="empty">Nenhum produto cadastrado.</div>';
-
- $('cartLines').innerHTML=cart.map(i=>`
-  <div class="cart-line">
-   <span><b>${esc(i.name)}</b><br><small class="muted">${money(i.price)} cada</small></span>
-   <span class="qty">
-    <button data-dec="${i.id}">−</button>
-    ${i.qty}
-    <button data-inc="${i.id}">+</button>
-    <b>${money(i.price*i.qty)}</b>
-   </span>
-  </div>
- `).join('')||'<div class="empty">Sua comanda está vazia.</div>';
-
- $('cartCount').textContent=cart.reduce((n,i)=>n+i.qty,0)+' itens';
- $('cartTotal').textContent=money(sum(cart,i=>i.price*i.qty));
-
- $('clientsTable').innerHTML=table(
-  ['Cliente','WhatsApp','Em aberto','Ações'],
-  data.clients.filter(c=>(c.name+' '+c.phone).toLowerCase().includes(($('clientSearch').value||'').toLowerCase())).map(c=>[
-   `<b>${esc(c.name)}</b>`,
-   `<span class="muted">${esc(c.phone||'Não informado')}</span>`,
-   money(customerDebt(c.id)),
-   `<div class="actions">
-    <button class="icon-btn" data-edit-client="${c.id}">Editar</button>
-    <button class="icon-btn" data-wa-client="${c.id}">WhatsApp</button>
-    <button class="icon-btn" data-del-client="${c.id}">Excluir</button>
-   </div>`
-  ])
- );
-
- $('productsTable').innerHTML=table(
-  ['Produto','Preço de venda','Custo','Margem bruta','Ações'],
-  data.products.filter(p=>p.name.toLowerCase().includes(($('manageProductSearch').value||'').toLowerCase())).map(p=>[
-   `<b>${esc(p.name)}</b>`,
-   money(p.price),
-   money(p.cost),
-   money(p.price-p.cost),
-   `<div class="actions">
-    <button class="icon-btn" data-edit-product="${p.id}">Editar</button>
-    <button class="icon-btn" data-del-product="${p.id}">Excluir</button>
-   </div>`
-  ])
- );
-
- const ds=debts();
-
- $('debtNotice').textContent=ds.length
-  ?`${ds.length} venda(s) em aberto · Total pendente: ${money(st.debt)}`
-  :'Nenhum valor pendente neste evento. Tudo em dia!';
-
- $('debtsTable').innerHTML=table(
-  ['Cliente','Venda','Saldo pendente','Data','Ações'],
-  ds.map(s=>[
-   `<b>${esc(s.clientName)}</b><br><small class="muted">${esc(s.itemsText)}</small>`,
-   money(s.total),
-   `<b style="color:var(--red)">${money(s.balance??s.total)}</b>`,
-   s.date,
-   `<div class="actions">
-    <button class="icon-btn" data-charge="${s.id}">WhatsApp</button>
-    <button class="icon-btn" data-receive="${s.id}">Registrar pagamento</button>
-   </div>`
-  ])
- );
-
- $('expensesList').innerHTML=eventExpenses().map(e=>`
-  <div class="cart-line">
-   <span><b>${esc(e.description)}</b><br><small class="muted">${e.date}</small></span>
-   <span><b>${money(e.value)}</b> <button class="icon-btn" data-del-expense="${e.id}">Excluir</button></span>
-  </div>
- `).join('')||'<div class="empty">Nenhuma despesa lançada.</div>';
-
- $('expenseTotal').textContent=money(st.expenses);
-
- $('salesTable').innerHTML=table(
-  ['Data','Cliente','Itens','Pagamento','Total'],
-  eventSales().slice().reverse().map(s=>[
-   s.date,
-   esc(s.clientName),
-   esc(s.itemsText),
-   `<span class="badge ${s.paid?'ok':'warn'}">${s.paid?esc(s.payment):'Fiado'}</span>`,
-   money(s.total)
-  ])
- );
-
- $('eventsReport').innerHTML=table(
-  ['Evento','Data','Vendas','Despesas','Resultado'],
-  data.events.map(e=>{
-   const vs=data.sales.filter(s=>String(s.eventId)===String(e.id));
-   const ex=data.expenses.filter(x=>String(x.eventId)===String(e.id));
-   const v=sum(vs,s=>s.total);
-   const x=sum(ex,a=>a.value);
-   return[esc(e.name),e.date,money(v),money(x),money(v-x)];
-  })
- );
-
- $('eventList').innerHTML=data.events.map(e=>`
-  <div class="cart-line">
-   <span><b>${esc(e.name)}</b><br><small class="muted">${e.date}</small></span>
-   <span class="actions">
-    <button class="icon-btn" data-select-event="${e.id}">Selecionar</button>
-    <button class="icon-btn" data-delete-event="${e.id}">Excluir</button>
-   </span>
-  </div>
- `).join('');
-}
-
-function table(headers,rows){
- if(!rows.length)return'<div class="empty">Nenhum registro encontrado.</div>';
-
- return`
-  <div class="table-wrap">
-   <table>
-    <thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead>
-    <tbody>
-     ${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}
-    </tbody>
-   </table>
-  </div>
- `;
-}
-
-function openModal(title,desc,fields,initial,callback){
- $('modalTitle').textContent=title;
- $('modalDescription').textContent=desc;
-
- $('modalFields').innerHTML=fields.map(f=>`
-  <div class="field">
-   <label>${f.label}</label>
-   <input
-    id="mf_${f.key}"
-    type="${f.type||'text'}"
-    value="${esc(initial?.[f.key]??'')}"
-    placeholder="${f.placeholder||''}"
-    ${f.min!==undefined?`min="${f.min}"`:''}
-    ${f.step?`step="${f.step}"`:''}
-   >
-  </div>
- `).join('');
-
- modalSaveAction=()=>{
-  const result={};
-  fields.forEach(f=>result[f.key]=$('mf_'+f.key).value.trim());
-  callback(result);
- };
-
- $('modal').classList.add('show');
-}
-
-function closeModal(){
- $('modal').classList.remove('show');
- modalSaveAction=null;
-}
-
-$('modalCancel').onclick=closeModal;
-$('modalSave').onclick=()=>modalSaveAction?.();
-
-// CORREÇÃO DO BOTÃO ENTRAR
-const enterButton=document.getElementById('enterBtn');
-const introScreen=document.getElementById('intro');
-
-if(enterButton&&introScreen){
- enterButton.addEventListener('click',function(){
-  if(introScreen.dataset.entered==='true')return;
-
-  introScreen.dataset.entered='true';
-  introScreen.classList.add('hide');
-
-  window.setTimeout(function(){
-   introScreen.remove();
-  },750);
- });
-}
-
-// NAVEGAÇÃO
-document.querySelectorAll('.nav button').forEach(b=>{
- b.onclick=()=>go(b.dataset.page);
-});
-
-document.querySelectorAll('[data-goto]').forEach(b=>{
- b.onclick=()=>go(b.dataset.goto);
-});
-
-$('menuBtn').onclick=()=>$('sidebar').classList.toggle('open');
-
-$('eventSelect').onchange=e=>{
- eventId=e.target.value;
- cart=[];
- render();
+// BOTÃO ENTRAR - VINHETA DE INICIAÇÃO
+document.getElementById("btnEntrar").onclick=function(){
+  document.getElementById("intro").classList.add("sair");
+  setTimeout(function(){ document.getElementById("intro").style.display="none"; }, 900);
+};
+// Se clicar em qualquer lugar da vinheta também entra
+document.getElementById("intro").onclick=function(e){
+  if(e.target.id=="intro"){ document.getElementById("intro").classList.add("sair"); setTimeout(function(){ document.getElementById("intro").style.display="none"; }, 900); }
 };
 
-$('quickEvent').onclick=()=>go('settings');
+var eventos = [{id:1,nome:"Festa Junina",data:"2026-07-20"}];
+var clientes = [{id:1,nome:"Geremy",tel:"5541999999999"},{id:2,nome:"Vitória",tel:""},{id:3,nome:"Henrique",tel:""},{id:4,nome:"Vian",tel:""},{id:5,nome:"Robson",tel:""}];
+var produtos = [{id:1,nome:"Refrigerante",preco:6},{id:2,nome:"Espeto",preco:12},{id:3,nome:"Doce",preco:5}];
+var vendas = []; var despesas = []; var eventoId = 1; var comanda = []; var forma = "Dinheiro"; var cobrancaAuto = true;
 
-$('productSearch').oninput=render;
-$('clientSearch').oninput=render;
-$('manageProductSearch').oninput=render;
+function dinheiro(v){ return "R$ " + Number(v).toFixed(2).replace(".",","); }
+function nomeEvento(id){ var e=eventos.find(function(x){return x.id==id}); return e?e.nome+" - "+e.data:""; }
+function msg(t){ document.getElementById("msg").innerText=t; }
+function totalFiadoCliente(nome){ var s=0; for(var i=0;i<vendas.length;i++) if(vendas[i].cliente==nome && !vendas[i].pago) s+=vendas[i].total; return s; }
 
-// PRODUTOS E COMANDA
-$('pdvProducts').onclick=e=>{
- const b=e.target.closest('[data-add]');
- if(!b)return;
-
- const p=data.products.find(x=>String(x.id)===b.dataset.add);
- const item=cart.find(x=>x.id===p.id);
-
- if(item)item.qty++;
- else cart.push({...p,qty:1});
-
- render();
-};
-
-$('cartLines').onclick=e=>{
- const dec=e.target.closest('[data-dec]');
- const inc=e.target.closest('[data-inc]');
-
- if(!dec&&!inc)return;
-
- const id=(dec||inc).dataset.dec||(dec||inc).dataset.inc;
- const i=cart.find(x=>String(x.id)===id);
-
- if(i){
-  i.qty+=inc?1:-1;
-
-  if(i.qty<=0){
-   cart=cart.filter(x=>x.id!==i.id);
+function mostrar(aba){
+  var botoes=document.querySelectorAll(".tabs button");
+  for(var i=0;i<botoes.length;i++){
+    botoes[i].classList.remove("ativo");
+    if(botoes[i].getAttribute("data-aba")==aba) botoes[i].classList.add("ativo");
   }
- }
-
- render();
-};
-
-$('paymentMethods').onclick=e=>{
- const b=e.target.closest('[data-pay]');
- if(!b)return;
-
- payment=b.dataset.pay;
-
- document.querySelectorAll('.pay').forEach(x=>{
-  x.classList.toggle('selected',x===b);
- });
-};
-
-$('clearCart').onclick=()=>{
- cart=[];
- render();
-};
-
-$('finishSale').onclick=()=>{
- const c=data.clients.find(x=>String(x.id)===$('saleClient').value);
-
- if(!c)return toast('Selecione um cliente.');
- if(!cart.length)return toast('Adicione pelo menos um produto.');
-
- const total=sum(cart,i=>i.price*i.qty);
- const itemsText=cart.map(i=>`${i.qty}x ${i.name}`).join(', ');
-
- data.sales.push({
-  id:uid(),
-  eventId,
-  clientId:c.id,
-  clientName:c.name,
-  phone:c.phone,
-  itemsText,
-  items:cart.map(i=>({...i})),
-  total,
-  payment,
-  paid:payment!=='Fiado',
-  balance:payment==='Fiado'?total:0,
-  date:today()
- });
-
- cart=[];
- save();
-
- toast(payment==='Fiado'?'Fiado registrado com sucesso.':'Venda registrada com sucesso.');
-
- if(payment==='Fiado'&&c.phone){
-  if(confirm('Deseja abrir o WhatsApp para enviar uma mensagem ao cliente?')){
-   whatsapp(c.phone,`Olá, ${c.name}! Foi registrado um valor de ${money(total)} em aberto referente a ${activeEvent()?.name||'seu evento'}. Obrigado!`);
+  var abas=["pdv","clientes","produtos","fiados","recebidos","despesas","resumo"];
+  for(var j=0;j<abas.length;j++){
+    document.getElementById("aba-"+abas[j]).style.display=(abas[j]==aba?"block":"none");
   }
- }
-};
+  desenhar();
+}
 
-// CLIENTES
-$('newClient').onclick=()=>{
- openModal(
-  'Novo cliente',
-  'Adicione os dados para contato.',
-  [
-   {key:'name',label:'NOME COMPLETO'},
-   {key:'phone',label:'WHATSAPP (COM DDD)',placeholder:'5543999999999'}
-  ],
-  {},
-  v=>{
-   if(!v.name)return toast('Informe o nome do cliente.');
-
-   data.clients.push({
-    id:uid(),
-    name:v.name,
-    phone:v.phone.replace(/\D/g,'')
-   });
-
-   closeModal();
-   save();
-   toast('Cliente cadastrado!');
-  }
- );
-};
-
-// PRODUTOS
-$('newProduct').onclick=()=>{
- openModal(
-  'Novo produto',
-  'Informe preço de venda e custo unitário.',
-  [
-   {key:'name',label:'NOME'},
-   {key:'price',label:'PREÇO DE VENDA',type:'number',min:0,step:'.01'},
-   {key:'cost',label:'CUSTO UNITÁRIO',type:'number',min:0,step:'.01'}
-  ],
-  {},
-  v=>{
-   if(!v.name||!Number.isFinite(+v.price)||+v.price<=0||+v.cost<0){
-    return toast('Confira nome, preço e custo.');
-   }
-
-   data.products.push({
-    id:uid(),
-    name:v.name,
-    price:+v.price,
-    cost:+v.cost||0
-   });
-
-   closeModal();
-   save();
-   toast('Produto cadastrado!');
-  }
- );
-};
-
-$('clientsTable').onclick=e=>{
- let b=e.target.closest('button');
- if(!b)return;
-
- let c=data.clients.find(x=>String(x.id)===Object.values(b.dataset)[0]);
-
- if(b.dataset.editClient){
-  openModal(
-   'Editar cliente',
-   'Atualize as informações.',
-   [
-    {key:'name',label:'NOME'},
-    {key:'phone',label:'WHATSAPP'}
-   ],
-   c,
-   v=>{
-    if(!v.name)return toast('Informe o nome.');
-    c.name=v.name;
-    c.phone=v.phone.replace(/\D/g,'');
-    closeModal();
-    save();
-   }
-  );
- }else if(b.dataset.waClient){
-  if(!c.phone)return toast('Este cliente não possui WhatsApp cadastrado.');
-  whatsapp(c.phone,`Olá, ${c.name}! Tudo bem?`);
- }else if(b.dataset.delClient){
-  if(data.sales.some(s=>String(s.clientId)===String(c.id))){
-   return toast('Não é possível excluir: cliente possui vendas vinculadas.');
+function desenhar(){
+  var selEv=document.getElementById("selEvento");
+  selEv.innerHTML="";
+  for(var i=0;i<eventos.length;i++){
+    var o=document.createElement("option");
+    o.value=eventos[i].id;
+    o.text=eventos[i].nome+" - "+eventos[i].data;
+    if(eventos[i].id==eventoId) o.selected=true;
+    selEv.appendChild(o);
   }
 
-  if(confirm(`Excluir ${c.name}?`)){
-   data.clients=data.clients.filter(x=>x.id!==c.id);
-   save();
+  var filtro=(document.getElementById("buscaCliente").value||"").toLowerCase();
+
+  /* MANTÉM O CLIENTE SELECIONADO APÓS ATUALIZAR A TELA */
+  var selCl=document.getElementById("selCliente");
+  var clienteSelecionado=selCl.value;
+  selCl.innerHTML='<option value="">Selecione o cliente...</option>';
+
+  for(var c=0;c<clientes.length;c++){
+    if(filtro && clientes[c].nome.toLowerCase().indexOf(filtro)==-1) continue;
+    var oc=document.createElement("option");
+    oc.value=clientes[c].id;
+    oc.text=clientes[c].nome+(totalFiadoCliente(clientes[c].nome)>0?" - DEVE "+dinheiro(totalFiadoCliente(clientes[c].nome)):"");
+    selCl.appendChild(oc);
   }
- }
-};
 
-$('productsTable').onclick=e=>{
- let b=e.target.closest('button');
- if(!b)return;
+  if(clienteSelecionado && Array.from(selCl.options).some(function(op){
+    return op.value===clienteSelecionado;
+  })){
+    selCl.value=clienteSelecionado;
+  }
 
- let id=b.dataset.editProduct||b.dataset.delProduct;
- let p=data.products.find(x=>String(x.id)===id);
+  var lp=document.getElementById("listaProd");
+  lp.innerHTML="";
 
- if(b.dataset.editProduct){
-  openModal(
-   'Editar produto',
-   'Atualize os dados do produto.',
-   [
-    {key:'name',label:'NOME'},
-    {key:'price',label:'PREÇO',type:'number',min:0,step:'.01'},
-    {key:'cost',label:'CUSTO',type:'number',min:0,step:'.01'}
-   ],
-   p,
-   v=>{
-    if(!v.name||+v.price<=0||+v.cost<0)return toast('Confira os dados.');
+  for(var p=0;p<produtos.length;p++){
+    (function(prod){
+      var d=document.createElement("div");
+      d.className="prod";
+      d.innerHTML="<b>"+prod.nome+"</b><br>"+dinheiro(prod.preco)+"<br><small>+ Adicionar</small>";
+      d.onclick=function(){
+        var ach=comanda.find(function(x){return x.id==prod.id});
+        if(ach) ach.qtd++;
+        else comanda.push({id:prod.id,nome:prod.nome,preco:prod.preco,qtd:1});
+        desenharComanda();
+      };
+      lp.appendChild(d);
+    })(produtos[p]);
+  }
 
-    Object.assign(p,{
-     name:v.name,
-     price:+v.price,
-     cost:+v.cost||0
-    });
+  desenharComanda();
 
-    closeModal();
-    save();
-   }
-  );
- }else if(confirm(`Excluir ${p.name}?`)){
-  data.products=data.products.filter(x=>x.id!==p.id);
-  save();
- }
-};
+  var buscaTab=(document.getElementById("buscaClienteTab").value||"").toLowerCase();
+  var lc=document.getElementById("listaClientes");
+  lc.innerHTML="";
 
-// WHATSAPP
-function whatsapp(phone,text){
- const n=String(phone||'').replace(/\D/g,'');
+  for(var k=0;k<clientes.length;k++){
+    if(buscaTab && clientes[k].nome.toLowerCase().indexOf(buscaTab)==-1) continue;
+    (function(cl){
+      var div=document.createElement("div");
+      div.className="linha";
+      var deve=totalFiadoCliente(cl.nome);
+      div.innerHTML="<span><b>"+cl.nome+"</b> - "+(cl.tel||"sem WhatsApp")+"<br><small style='color:"+(deve>0?"red":"green")+"'>"+(deve>0?"⚠️ Deve: "+dinheiro(deve):"✅ Nada devendo")+"</small></span>";
+      var box=document.createElement("span");
 
- if(!n)return toast('WhatsApp não cadastrado.');
+      var b1=document.createElement("button");
+      b1.className="whats";
+      b1.innerText="💬 WhatsApp";
+      b1.onclick=function(){
+        if(!cl.tel){
+          alert("Coloca o WhatsApp em Editar Whats!");
+          return;
+        }
+        window.open("https://wa.me/"+cl.tel+"?text="+encodeURIComponent("Oi "+cl.nome+"! Tudo bem? 🍷"),"_blank");
+      };
 
- window.open(
-  `https://wa.me/${n}?text=${encodeURIComponent(text)}`,
-  '_blank',
-  'noopener'
- );
+      var b2=document.createElement("button");
+      b2.className="mini";
+      b2.innerText="✏️ Editar Whats";
+      b2.onclick=function(){
+        var novo=prompt("WhatsApp do "+cl.nome+" (só números com DDD):",cl.tel||"");
+        if(novo!==null){
+          cl.tel=novo.replace(/\D/g,"");
+          desenhar();
+        }
+      };
+
+      box.appendChild(b1);
+      box.appendChild(document.createTextNode(" "));
+      box.appendChild(b2);
+      div.appendChild(box);
+      lc.appendChild(div);
+    })(clientes[k]);
+  }
+
+  var lpt=document.getElementById("listaProdTab");
+  lpt.innerHTML=produtos.map(function(x){
+    return "<div class='linha'><span>"+x.nome+"<br><small>Custo: "+dinheiro(x.custo||0)+"</small></span><b>Venda: "+dinheiro(x.preco)+"</b></div>";
+  }).join("");
+
+  var lf=document.getElementById("listaFiados");
+  lf.innerHTML="";
+  var fiados=vendas.filter(function(v){return v.eventoId==eventoId && !v.pago});
+  var totalFiadoFiados=0;
+
+  for(var ff=0;ff<fiados.length;ff++) totalFiadoFiados+=fiados[ff].total;
+
+  document.getElementById("alertaFiado").innerText = fiados.length==0 ? "🎉 Ninguém devendo neste evento!" : "⚠️ "+fiados.length+" fiados - Total a receber: "+dinheiro(totalFiadoFiados);
+
+  if(fiados.length==0) lf.innerHTML="Nenhum fiado 🎉";
+
+  for(var f=0;f<fiados.length;f++){
+    (function(v){
+      var div=document.createElement("div");
+      div.className="linha";
+      div.innerHTML="<span><b>"+v.cliente+"</b> - "+v.itens+"<br>"+dinheiro(v.total)+" • "+v.data+"</span>";
+      var box=document.createElement("span");
+
+      var bw=document.createElement("button");
+      bw.className="whats";
+      bw.innerText="💬 Cobrar Agora";
+      bw.onclick=function(){
+        if(!v.tel){
+          alert("Sem WhatsApp. Vai em Clientes > Editar Whats");
+          return;
+        }
+        window.open("https://wa.me/"+v.tel+"?text="+encodeURIComponent("Oi "+v.cliente+"! Você ficou com "+dinheiro(v.total)+" em aberto na "+nomeEvento(v.eventoId)+" - "+v.itens+". Pode pagar via Pix? Obrigada! 🍷"),"_blank");
+      };
+
+      var bp=document.createElement("button");
+      bp.className="mini";
+      bp.style.background="#6b0f2a";
+      bp.style.color="#fff";
+      bp.innerText="✅ Pago";
+      bp.onclick=function(){
+        var forma2=prompt("Como pagou? Dinheiro, Pix, Crédito ou Débito","Pix");
+        if(!forma2) return;
+        v.pago=true;
+        v.forma=forma2;
+        desenhar();
+        alert("Marcado como pago!");
+      };
+
+      box.appendChild(bw);
+      box.appendChild(document.createTextNode(" "));
+      box.appendChild(bp);
+      div.appendChild(box);
+      lf.appendChild(div);
+    })(fiados[f]);
+  }
+
+  var lr=document.getElementById("listaRecebidos");
+  var rec=vendas.filter(function(v){return v.eventoId==eventoId && v.pago});
+  lr.innerHTML = rec.length==0?"Nenhum recebimento ainda.":rec.map(function(v){
+    return "<div class='linha'><span><b>"+v.cliente+"</b> - "+v.itens+"</span><b>"+v.forma+" - "+dinheiro(v.total)+"</b></div>";
+  }).join("");
+
+  var ld=document.getElementById("listaDesp");
+  var desp=despesas.filter(function(d){return d.eventoId==eventoId});
+  ld.innerHTML = desp.length==0?"Nenhuma despesa.":desp.map(function(d){
+    return "<div class='linha'><span>"+d.desc+"</span><b>"+dinheiro(d.valor)+"</b></div>";
+  }).join("");
+
+  var ve=vendas.filter(function(v){return v.eventoId==eventoId});
+  var tot=0, recTot=0, fiaTot=0;
+
+  for(var s=0;s<ve.length;s++){
+    tot+=ve[s].total;
+    if(ve[s].pago) recTot+=ve[s].total;
+    else fiaTot+=ve[s].total;
+  }
+
+  var despTot=0;
+  for(var d2=0;d2<desp.length;d2++) despTot+=desp[d2].valor;
+
+  var lucro=tot-despTot;
+  document.getElementById("nomeResumo").innerText=nomeEvento(eventoId);
+  document.getElementById("cardsResumo").innerHTML="<p><b>Venda Total:</b> "+dinheiro(tot)+"</p><p><b>Recebido:</b> "+dinheiro(recTot)+"</p><p><b>Fiado:</b> "+dinheiro(fiaTot)+"</p><p><b>Despesas:</b> "+dinheiro(despTot)+"</p><p style='font-size:20px'><b>"+(lucro>=0?"✅ LUCRO: ":"❌ PREJUÍZO: ")+dinheiro(lucro)+"</b></p>";
+
+  var max=Math.max(tot,despTot,1);
+  document.getElementById("grafResumo").innerHTML="<p>Vendas</p><div class='barra' style='width:"+(tot/max*100)+"%'></div><p>Despesas</p><div class='barra2' style='width:"+(despTot/max*100)+"%'></div><p>Lucro</p><div class='barra3' style='width:"+(Math.max(lucro,0)/max*100)+"%'></div>";
+
+  document.getElementById("tabelaResumo").innerHTML = eventos.map(function(ev){
+    var vs=vendas.filter(function(v){return v.eventoId==ev.id});
+    var tv=0;
+    for(var q=0;q<vs.length;q++) tv+=vs[q].total;
+    var dp=despesas.filter(function(d){return d.eventoId==ev.id});
+    var td=0;
+    for(var w=0;w<dp.length;w++) td+=dp[w].valor;
+    return "<div class='linha'><span>"+ev.nome+"</span><b>Vendas "+dinheiro(tv)+" | Desp "+dinheiro(td)+" | Lucro "+dinheiro(tv-td)+"</b></div>";
+  }).join("");
+
+  var ranking = clientes.map(function(c){
+    return {nome:c.nome, deve:totalFiadoCliente(c.nome)};
+  }).filter(function(x){return x.deve>0}).sort(function(a,b){return b.deve-a.deve});
+
+  document.getElementById("rankingDevedores").innerHTML = "<h3>🏆 Quem mais deve</h3>" + (ranking.length==0?"Ninguém devendo 🎉":ranking.map(function(r){
+    return "<div class='linha'><span>"+r.nome+"</span><b style='color:red'>"+dinheiro(r.deve)+"</b></div>";
+  }).join(""));
 }
 
-// FIADOS E PAGAMENTOS
-$('debtsTable').onclick=e=>{
- const b=e.target.closest('button');
- if(!b)return;
+function desenharComanda(){
+  var total=0;
+  for(var i=0;i<comanda.length;i++) total+=comanda[i].preco*comanda[i].qtd;
 
- const s=data.sales.find(x=>String(x.id)===(b.dataset.charge||b.dataset.receive));
+  document.getElementById("totalTxt").innerText="Total: "+dinheiro(total);
+  var c=document.getElementById("comanda");
+  c.innerHTML="";
 
- if(b.dataset.charge){
-  if(!s.phone)return toast('Cliente sem WhatsApp cadastrado.');
+  if(comanda.length==0){
+    c.innerHTML="<p style='color:#888'>Clique em um produto para adicionar.</p>";
+    return;
+  }
 
-  whatsapp(
-   s.phone,
-   `Olá, ${s.clientName}! Você possui um saldo pendente de ${money(s.balance??s.total)} referente a ${activeEvent()?.name||'nosso evento'}. Obrigado!`
-  );
+  for(var j=0;j<comanda.length;j++){
+    (function(it){
+      var div=document.createElement("div");
+      div.className="linha";
+      div.innerHTML="<span>"+it.nome+" - "+dinheiro(it.preco)+"</span>";
+      var box=document.createElement("span");
 
- }else if(b.dataset.receive){
+      var bm=document.createElement("button");
+      bm.className="mini";
+      bm.innerText=" - ";
+      bm.onclick=function(){
+        it.qtd--;
+        if(it.qtd<=0) comanda=comanda.filter(function(x){return x.id!=it.id});
+        desenharComanda();
+      };
 
-  openModal(
-   'Registrar recebimento',
-   'Informe o valor que o cliente pagou agora.',
-   [{
-    key:'amount',
-    label:`VALOR RECEBIDO (SALDO: ${money(s.balance??s.total)})`,
-    type:'number',
-    min:'.01',
-    step:'.01'
-   }],
-   {amount:(s.balance??s.total).toFixed(2)},
-   v=>{
-    const amount=Number(v.amount);
-    const balance=s.balance??s.total;
+      var span=document.createElement("span");
+      span.innerText=" "+it.qtd+" ";
 
-    if(!amount||amount<=0||amount>balance){
-     return toast('Informe um valor válido, até o saldo pendente.');
+      var bp=document.createElement("button");
+      bp.className="mini";
+      bp.innerText=" + ";
+      bp.onclick=function(){
+        it.qtd++;
+        desenharComanda();
+      };
+
+      box.appendChild(bm);
+      box.appendChild(span);
+      box.appendChild(bp);
+      div.appendChild(box);
+      c.appendChild(div);
+    })(comanda[j]);
+  }
+}
+
+var botoesAbas=document.querySelectorAll(".tabs button");
+for(var b=0;b<botoesAbas.length;b++){
+  (function(btn){
+    btn.onclick=function(){
+      mostrar(btn.getAttribute("data-aba"));
+    };
+  })(botoesAbas[b]);
+}
+
+document.getElementById("selEvento").onchange=function(){
+  eventoId=Number(this.value);
+  desenhar();
+};
+
+document.getElementById("buscaCliente").oninput=function(){ desenhar(); };
+document.getElementById("buscaClienteTab").oninput=function(){ desenhar(); };
+
+document.getElementById("btnEvento").onclick=function(){
+  var n=document.getElementById("nEvento").value;
+  var d=document.getElementById("dEvento").value;
+  if(!n||!d){
+    alert("Preencha nome e data");
+    return;
+  }
+  var id=Date.now();
+  eventos.push({id:id,nome:n,data:d});
+  eventoId=id;
+  document.getElementById("nEvento").value="";
+  desenhar();
+  alert("Evento criado!");
+};
+
+document.getElementById("btnCliente").onclick=function(){
+  var n=document.getElementById("nCliente").value;
+  var t=document.getElementById("tCliente").value.replace(/\D/g,"");
+  if(!n){
+    alert("Digite o nome");
+    return;
+  }
+  clientes.push({id:Date.now(),nome:n,tel:t});
+  document.getElementById("nCliente").value="";
+  document.getElementById("tCliente").value="";
+  desenhar();
+  alert("Cliente cadastrado!");
+};
+
+document.getElementById("btnProd").onclick=function(){
+  var n=document.getElementById("pNome").value;
+  var pr=Number(document.getElementById("pPreco").value);
+  if(!n||!pr){
+    alert("Nome e preço");
+    return;
+  }
+  var custo=Number(document.getElementById("pCusto").value)||0;
+  produtos.push({id:Date.now(),nome:n,preco:pr,custo:custo});
+  document.getElementById("pNome").value="";
+  document.getElementById("pPreco").value="";
+  document.getElementById("pCusto").value="";
+  desenhar();
+  alert("Produto cadastrado!");
+};
+
+/* DESPESA LANÇADA TAMBÉM CADASTRA O PRODUTO AUTOMATICAMENTE */
+document.getElementById("btnDesp").onclick=function(){
+  var d=document.getElementById("dDesc").value.trim();
+  var v=Number(document.getElementById("dValor").value);
+  var pv=Number(document.getElementById("dPrecoVenda").value);
+
+  if(!d||!v||v<=0||!pv||pv<=0){
+    alert("Preencha a descrição, o custo da compra e o preço de venda do produto.");
+    return;
+  }
+
+  despesas.push({id:Date.now(),eventoId:eventoId,desc:d,valor:v});
+  produtos.push({id:Date.now()+1,nome:d,preco:pv,custo:v});
+
+  document.getElementById("dDesc").value="";
+  document.getElementById("dValor").value="";
+  document.getElementById("dPrecoVenda").value="";
+
+  desenhar();
+  alert("Despesa lançada e produto cadastrado automaticamente na aba Produtos!");
+};
+
+var botoesPag=document.querySelectorAll("#boxPag button");
+for(var pp=0;pp<botoesPag.length;pp++){
+  (function(btn){
+    btn.onclick=function(){
+      forma=btn.getAttribute("data-pag");
+      for(var q=0;q<botoesPag.length;q++) botoesPag[q].classList.remove("sel");
+      btn.classList.add("sel");
+      msg("Você escolheu: "+forma);
+    };
+  })(botoesPag[pp]);
+}
+
+document.getElementById("btnLimpar").onclick=function(){
+  comanda=[];
+  desenharComanda();
+};
+
+document.getElementById("btnAuto").onclick=function(){
+  cobrancaAuto=!cobrancaAuto;
+  document.getElementById("btnAuto").innerText = cobrancaAuto ? "🔔 DESLIGAR COBRANÇA AUTO" : "🔕 LIGAR COBRANÇA AUTO";
+  alert(cobrancaAuto ? "Cobrança automática LIGADA!" : "Cobrança automática DESLIGADA!");
+};
+
+document.getElementById("btnCobrarTodos").onclick=function(){
+  var fiados=vendas.filter(function(v){return v.eventoId==eventoId && !v.pago && v.tel});
+  if(fiados.length==0){
+    alert("Ninguém com WhatsApp devendo!");
+    return;
+  }
+  alert("Vou abrir o WhatsApp de "+fiados.length+" pessoas, uma por uma!");
+  var idx=0;
+  function proximo(){
+    if(idx>=fiados.length){
+      alert("✅ Terminei de cobrar todo mundo!");
+      return;
     }
+    var v=fiados[idx];
+    idx++;
+    window.open("https://wa.me/"+v.tel+"?text="+encodeURIComponent("Oi "+v.cliente+"! Você ficou com "+dinheiro(v.total)+" em aberto na "+nomeEvento(v.eventoId)+" - "+v.itens+". Pode pagar via Pix? Obrigada! 🍷"),"_blank");
+    setTimeout(proximo,2500);
+  }
+  proximo();
+};
 
-    s.balance=+(balance-amount).toFixed(2);
+document.getElementById("btnCopiarTexto").onclick=function(){
+  var fiados=vendas.filter(function(v){return v.eventoId==eventoId && !v.pago});
+  var texto="COBRANÇA - "+nomeEvento(eventoId)+"\n";
+  for(var i=0;i<fiados.length;i++) texto+="• "+fiados[i].cliente+" deve "+dinheiro(fiados[i].total)+" - "+fiados[i].itens+"\n";
+  navigator.clipboard.writeText(texto).then(function(){
+    alert("Texto copiado!");
+  });
+};
 
-    if(s.balance<.005){
-     s.balance=0;
-     s.paid=true;
-     s.payment='Fiado quitado';
+document.getElementById("btnExportar").onclick=function(){
+  var ve=vendas.filter(function(v){return v.eventoId==eventoId});
+  var texto="RELATÓRIO - "+nomeEvento(eventoId)+"\n";
+  for(var i=0;i<ve.length;i++){
+    texto+="• "+ve[i].cliente+" - "+ve[i].itens+" - "+dinheiro(ve[i].total)+" - "+(ve[i].pago?ve[i].forma:"FIADO")+"\n";
+  }
+  navigator.clipboard.writeText(texto).then(function(){
+    alert("Relatório copiado!");
+  });
+};
+
+document.getElementById("btnFechar").onclick=function(){
+  var cid=document.getElementById("selCliente").value;
+
+  if(!cid){
+    alert("Selecione o cliente!");
+    return;
+  }
+
+  if(comanda.length==0){
+    alert("Adicione um produto!");
+    return;
+  }
+
+  var cliente=clientes.find(function(c){return c.id==cid});
+  var total=0;
+
+  for(var i=0;i<comanda.length;i++) total+=comanda[i].preco*comanda[i].qtd;
+
+  var itens=comanda.map(function(x){
+    return x.qtd+"x "+x.nome;
+  }).join(", ");
+
+  vendas.push({
+    id:Date.now(),
+    eventoId:eventoId,
+    cliente:cliente.nome,
+    tel:cliente.tel,
+    itens:itens,
+    total:total,
+    forma:forma,
+    pago:forma!="Fiado"
+  });
+
+  comanda=[];
+
+  /* A FUNÇÃO DESENHAR PRESERVA O CLIENTE SELECIONADO */
+  desenhar();
+
+  if(forma=="Fiado"){
+    if(cobrancaAuto && cliente.tel){
+      window.open("https://wa.me/"+cliente.tel+"?text="+encodeURIComponent("Oi "+cliente.nome+"! Você ficou com "+dinheiro(total)+" em aberto na "+nomeEvento(eventoId)+" - "+itens+". Pode pagar via Pix? Obrigada! 🍷"),"_blank");
     }
-
-    s.payments=s.payments||[];
-    s.payments.push({amount,date:today()});
-
-    closeModal();
-    save();
-
-    toast(s.paid?'Pendência quitada!':'Pagamento parcial registrado!');
-   }
-  );
- }
-};
-
-$('copyDebts').onclick=async()=>{
- const txt=debts().map(s=>`${s.clientName}: ${money(s.balance??s.total)}`).join('\n')||'Nenhuma pendência';
-
- await navigator.clipboard.writeText(
-  `PENDÊNCIAS — ${activeEvent()?.name||''}\n${txt}`
- );
-
- toast('Resumo copiado!');
-};
-
-// DESPESAS
-$('addExpense').onclick=()=>{
- const description=$('expenseDesc').value.trim();
- const value=Number($('expenseValue').value);
-
- if(!description||!value||value<=0){
-  return toast('Informe descrição e valor válido.');
- }
-
- data.expenses.push({
-  id:uid(),
-  eventId,
-  description,
-  value,
-  date:today()
- });
-
- $('expenseDesc').value='';
- $('expenseValue').value='';
-
- save();
- toast('Despesa registrada!');
-};
-
-$('expensesList').onclick=e=>{
- const b=e.target.closest('[data-del-expense]');
-
- if(b&&confirm('Excluir esta despesa?')){
-  data.expenses=data.expenses.filter(x=>String(x.id)!==b.dataset.delExpense);
-  save();
- }
-};
-
-// EVENTOS
-$('createEvent').onclick=()=>{
- const name=$('eventName').value.trim();
- const date=$('eventDate').value;
-
- if(!name||!date)return toast('Preencha o nome e a data.');
-
- const e={id:uid(),name,date};
-
- data.events.push(e);
- eventId=e.id;
-
- $('eventName').value='';
- $('eventDate').value='';
-
- save();
- toast('Evento criado!');
-};
-
-$('eventList').onclick=e=>{
- const b=e.target.closest('button');
- if(!b)return;
-
- if(b.dataset.selectEvent){
-  eventId=b.dataset.selectEvent;
-  render();
-  toast('Evento selecionado.');
- }
-
- if(b.dataset.deleteEvent){
-  const id=b.dataset.deleteEvent;
-
-  if(data.events.length===1)return toast('Mantenha pelo menos um evento.');
-
-  if(data.sales.some(s=>String(s.eventId)===id)||data.expenses.some(x=>String(x.eventId)===id)){
-   return toast('Este evento possui movimentações e não pode ser excluído.');
+    alert("FIADO lançado! "+(cobrancaAuto?"WhatsApp aberto.":"Cobrança auto desligada."));
+  }else{
+    alert("Venda registrada: "+forma+" - "+dinheiro(total));
   }
-
-  if(confirm('Excluir este evento?')){
-   data.events=data.events.filter(x=>String(x.id)!==id);
-   eventId=data.events[0].id;
-   save();
-  }
- }
 };
 
-// RELATÓRIOS
-function reportText(){
- return[
-  `RELATÓRIO — ${activeEvent()?.name||''}`,
-  `Vendas: ${money(eventStats().sales)}`,
-  `Recebido: ${money(eventStats().received)}`,
-  `Em aberto: ${money(eventStats().debt)}`,
-  `Despesas: ${money(eventStats().expenses)}`,
-  `Resultado estimado: ${money(eventStats().profit)}`,
-  ...eventSales().map(s=>`${s.date} | ${s.clientName} | ${s.itemsText} | ${money(s.total)} | ${s.paid?s.payment:'FIADO'}`)
- ].join('\n');
-}
-
-$('copyReport').onclick=async()=>{
- await navigator.clipboard.writeText(reportText());
- toast('Relatório copiado!');
-};
-
-$('exportReport').onclick=()=>{
- const rows=[
-  ['Data','Cliente','Itens','Pagamento','Total'],
-  ...eventSales().map(s=>[
-   s.date,
-   s.clientName,
-   s.itemsText,
-   s.paid?s.payment:'Fiado',
-   s.total
-  ])
- ];
-
- const csv='\ufeff'+rows.map(r=>
-  r.map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(';')
- ).join('\n');
-
- download(csv,'relatorio-entre-tacas.csv','text/csv;charset=utf-8');
-};
-
-function download(content,name,type){
- const a=document.createElement('a');
- const url=URL.createObjectURL(new Blob([content],{type}));
-
- a.href=url;
- a.download=name;
- a.click();
-
- URL.revokeObjectURL(url);
-}
-
-// BACKUP
-$('backupData').onclick=()=>{
- download(
-  JSON.stringify(data,null,2),
-  'backup-entre-tacas.json',
-  'application/json'
- );
-};
-
-$('restoreFile').onchange=async e=>{
- try{
-  const obj=JSON.parse(await e.target.files[0].text());
-
-  if(!obj.events||!obj.clients||!obj.products||!obj.sales||!obj.expenses){
-   throw Error();
-  }
-
-  data=obj;
-  eventId=data.events[0]?.id;
-
-  save();
-  toast('Backup restaurado!');
-
- }catch{
-  toast('Arquivo de backup inválido.');
- }
-
- e.target.value='';
-};
-
-$('resetData').onclick=()=>{
- if(confirm('Isso substituirá os dados atuais pelos dados de demonstração. Continuar?')){
-  data=seed();
-  eventId=data.events[0].id;
-  cart=[];
-  save();
-  toast('Dados de demonstração restaurados.');
- }
-};
-
-// SUPABASE
-$('connectSupabase').onclick=async()=>{
- const url=$('sbUrl').value.trim();
- const key=$('sbKey').value.trim();
-
- if(!url||!key)return toast('Informe URL e chave pública.');
-
- try{
-  sb=window.supabase.createClient(url,key);
-
-  localStorage.setItem('entreTacasSupabase',JSON.stringify({url,key}));
-
-  $('connectionBadge').textContent='CONECTADO AO PROJETO';
-  $('sideMode').textContent='Supabase configurado';
-  $('authMessage').textContent='Conexão configurada. Entre ou crie sua conta.';
-
-  toast('Configuração salva. Faça login para sincronizar.');
-
- }catch(err){
-  toast('Não foi possível configurar: '+err.message);
- }
-};
-
-async function loadCloud(){
- if(!sb||!user)return;
-
- const {data:row,error}=await sb
-  .from(SUPABASE_TABLE)
-  .select('data')
-  .eq('user_id',user.id)
-  .maybeSingle();
-
- if(error){
-  toast('Erro ao carregar dados: '+error.message);
-  return;
- }
-
- if(row?.data){
-  data=row.data;
-  eventId=data.events?.[0]?.id??null;
- }else{
-  await sb.from(SUPABASE_TABLE).upsert({
-   user_id:user.id,
-   data,
-   updated_at:new Date().toISOString()
-  },{onConflict:'user_id'});
- }
-
- localStorage.setItem('entreTacasData',JSON.stringify(data));
-
- $('authStatus').textContent='Conta sincronizada';
- $('sideMode').textContent='Sincronizado com Supabase';
-
- render();
-}
-
-$('signIn').onclick=async()=>{
- if(!sb)return toast('Configure o Supabase primeiro.');
-
- const {data:d,error}=await sb.auth.signInWithPassword({
-  email:$('authEmail').value,
-  password:$('authPassword').value
- });
-
- if(error)return toast(error.message);
-
- user=d.user;
-
- await loadCloud();
-
- $('authMessage').textContent='Sessão iniciada: '+user.email;
-
- toast('Login realizado!');
-};
-
-$('signUp').onclick=async()=>{
- if(!sb)return toast('Configure o Supabase primeiro.');
-
- const {data:d,error}=await sb.auth.signUp({
-  email:$('authEmail').value,
-  password:$('authPassword').value
- });
-
- if(error)return toast(error.message);
-
- $('authMessage').textContent=d.session
-  ?'Conta criada e conectada.'
-  :'Conta criada. Verifique seu e-mail para confirmar o cadastro.';
-
- if(d.user&&d.session){
-  user=d.user;
-  await loadCloud();
- }
-};
-
-$('signOut').onclick=async()=>{
- if(!sb)return;
-
- if(!confirm('Deseja sair da conta?'))return;
-
- await sb.auth.signOut();
-
- user=null;
-
- $('authStatus').textContent='Dados salvos neste navegador';
- $('sideMode').textContent='Modo local';
-
- toast('Sessão encerrada.');
-};
-
-async function initCloud(){
- const cfg=JSON.parse(localStorage.getItem('entreTacasSupabase')||'null');
-
- if(!cfg)return;
-
- $('sbUrl').value=cfg.url;
- $('sbKey').value=cfg.key;
-
- sb=window.supabase.createClient(cfg.url,cfg.key);
-
- $('connectionBadge').textContent='PROJETO CONFIGURADO';
-
- const {data:d}=await sb.auth.getSession();
-
- if(d.session){
-  user=d.session.user;
-  await loadCloud();
- }
-
- sb.auth.onAuthStateChange((_event,session)=>{
-  user=session?.user||null;
-
-  if(!user){
-   $('authStatus').textContent='Dados salvos neste navegador';
-  }
- });
-}
-
-initCloud();
-render();
-
+desenhar();
 </script>
 </body>
 </html>
