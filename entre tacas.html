@@ -133,11 +133,26 @@ tr:last-child td{border-bottom:0}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
+
 <body>
-<div class="intro" id="intro"><div class="intro-inner"><div class="intro-icon">🍷</div><div class="eyebrow">HUB DE EVENTOS</div><h1>ENTRE <span>TAÇAS</span></h1><p>Gestão inteligente. Eventos inesquecíveis.</p><button id="enterBtn">ENTRAR NA PLATAFORMA&nbsp; →</button></div></div>
+<div class="intro" id="intro">
+ <div class="intro-inner">
+  <div class="intro-icon">🍷</div>
+  <div class="eyebrow">HUB DE EVENTOS</div>
+  <h1>ENTRE <span>TAÇAS</span></h1>
+  <p>Gestão inteligente. Eventos inesquecíveis.</p>
+  <button id="enterBtn">ENTRAR NA PLATAFORMA&nbsp; →</button>
+ </div>
+</div>
+
 <div class="app">
 <aside class="sidebar" id="sidebar">
- <div class="brand"><div class="brand-mark">🍷</div><h1>ENTRE <span>TAÇAS</span></h1><small>Gestão de eventos</small></div>
+ <div class="brand">
+  <div class="brand-mark">🍷</div>
+  <h1>ENTRE <span>TAÇAS</span></h1>
+  <small>Gestão de eventos</small>
+ </div>
+
  <nav class="nav">
   <button class="active" data-page="dashboard"><span class="ico">◈</span> Visão geral</button>
   <button data-page="pdv"><span class="ico">▣</span> Ponto de venda</button>
@@ -148,25 +163,1230 @@ tr:last-child td{border-bottom:0}
   <button data-page="reports"><span class="ico">▥</span> Relatórios</button>
   <button data-page="settings"><span class="ico">⚙</span> Configurações</button>
  </nav>
+
  <div class="side-bottom">ENTRE TAÇAS<br>Organização em cada detalhe.<br><span id="sideMode">Modo local</span></div>
 </aside>
+
 <main class="main">
  <header class="topbar">
-  <div style="display:flex;align-items:center;gap:12px"><button class="mobile-menu" id="menuBtn">☰</button><div><div class="eyebrow">PAINEL DE CONTROLE</div><h2 id="pageTitle">Visão geral</h2></div></div>
-  <div class="top-actions"><select class="event-select" id="eventSelect" aria-label="Selecionar evento"></select><div class="auth-status" id="authStatus">Dados salvos neste navegador</div><button class="btn soft" id="quickEvent">＋ Evento</button></div>
+  <div style="display:flex;align-items:center;gap:12px">
+   <button class="mobile-menu" id="menuBtn">☰</button>
+   <div>
+    <div class="eyebrow">PAINEL DE CONTROLE</div>
+    <h2 id="pageTitle">Visão geral</h2>
+   </div>
+  </div>
+  <div class="top-actions">
+   <select class="event-select" id="eventSelect" aria-label="Selecionar evento"></select>
+   <div class="auth-status" id="authStatus">Dados salvos neste navegador</div>
+   <button class="btn soft" id="quickEvent">＋ Evento</button>
+  </div>
  </header>
+
  <div class="content">
+
   <section class="page active" id="page-dashboard">
-   <div class="hero"><div class="eyebrow">SEJA BEM-VINDA(O)</div><h2>Seu evento, sob controle.</h2><p>Acompanhe resultados, organize vendas e mantenha tudo em um só lugar.</p></div>
+   <div class="hero">
+    <div class="eyebrow">SEJA BEM-VINDA(O)</div>
+    <h2>Seu evento, sob controle.</h2>
+    <p>Acompanhe resultados, organize vendas e mantenha tudo em um só lugar.</p>
+   </div>
+
    <div class="grid stats">
     <div class="stat"><div class="label">Vendas realizadas</div><strong id="sSales">R$ 0,00</strong><small>Faturamento total do evento</small><span class="symbol">↗</span></div>
     <div class="stat"><div class="label">Já recebido</div><strong id="sReceived">R$ 0,00</strong><small>Pagamentos confirmados</small><span class="symbol">✓</span></div>
     <div class="stat"><div class="label">Em aberto</div><strong id="sDebt">R$ 0,00</strong><small>Valores pendentes</small><span class="symbol">◷</span></div>
     <div class="stat"><div class="label">Resultado estimado</div><strong id="sProfit">R$ 0,00</strong><small>Vendas menos despesas</small><span class="symbol">✦</span></div>
    </div>
+
    <div class="grid two-col">
-    <div class="panel"><div class="panel-head"><div><h3>Movimentação financeira</h3><div class="panel-sub">Resumo do evento selecionado</div></div><span class="badge">EM TEMPO REAL</span></div><div id="dashboardBars"></div></div>
-    <div class="panel"><div class="panel-head"><div><h3>Acesso rápido</h3><div class="panel-sub">Ações frequentes</div></div></div><div class="grid"><button class="btn primary full" data-goto="pdv">＋ Registrar uma venda</button><button class="btn soft full" data-goto="clients">＋ Cadastrar cliente</button><button class="btn soft full" data-goto="expenses">＋ Lançar despesa</button><button class="btn gold full" data-goto="debts">Ver valores pendentes →</button></div></div>
+    <div class="panel">
+     <div class="panel-head">
+      <div><h3>Movimentação financeira</h3><div class="panel-sub">Resumo do evento selecionado</div></div>
+      <span class="badge">EM TEMPO REAL</span>
+     </div>
+     <div id="dashboardBars"></div>
+    </div>
+
+    <div class="panel">
+     <div class="panel-head"><div><h3>Acesso rápido</h3><div class="panel-sub">Ações frequentes</div></div></div>
+     <div class="grid">
+      <button class="btn primary full" data-goto="pdv">＋ Registrar uma venda</button>
+      <button class="btn soft full" data-goto="clients">＋ Cadastrar cliente</button>
+      <button class="btn soft full" data-goto="expenses">＋ Lançar despesa</button>
+      <button class="btn gold full" data-goto="debts">Ver valores pendentes →</button>
+     </div>
+    </div>
    </div>
-   <div class="panel"><div class="panel-head"><div><h3>Últimas movimentações</h3><div class="panel-sub">Vendas registradas neste evento</div></div><button class="btn soft" data-goto="reports">Ver relatório</button></div><div id="recentSales"></div></div>
+
+   <div class="panel">
+    <div class="panel-head">
+     <div><h3>Últimas movimentações</h3><div class="panel-sub">Vendas registradas neste evento</div></div>
+     <button class="btn soft" data-goto="reports">Ver relatório</button>
+    </div>
+    <div id="recentSales"></div>
+   </div>
   </section>
+
+  <section class="page" id="page-pdv">
+   <div class="page-heading">
+    <div><div class="eyebrow">OPERAÇÃO DE VENDAS</div><h2>Ponto de venda</h2><p>Monte a comanda, selecione o cliente e finalize a venda.</p></div>
+   </div>
+
+   <div class="grid two-col">
+    <div class="panel">
+     <div class="panel-head"><div><h3>Catálogo de produtos</h3><div class="panel-sub">Selecione para adicionar à comanda</div></div></div>
+     <input class="search" id="productSearch" placeholder="Buscar produto..." style="margin-bottom:14px">
+     <div class="grid product-grid" id="pdvProducts"></div>
+    </div>
+
+    <div class="panel">
+     <div class="panel-head"><div><h3>Nova comanda</h3><div class="panel-sub">Resumo da compra</div></div><span class="badge" id="cartCount">0 itens</span></div>
+     <div class="field"><label>CLIENTE</label><select id="saleClient"><option value="">Selecione um cliente</option></select></div>
+     <div id="cartLines"><div class="empty">Sua comanda está vazia.</div></div>
+     <div class="total-box"><span>Total da comanda</span><strong id="cartTotal">R$ 0,00</strong></div>
+
+     <div class="field">
+      <label>FORMA DE PAGAMENTO</label>
+      <div class="payment-grid" id="paymentMethods">
+       <button class="pay selected" data-pay="Dinheiro">💵 Dinheiro</button>
+       <button class="pay" data-pay="Pix">⚡ Pix</button>
+       <button class="pay" data-pay="Crédito">💳 Crédito</button>
+       <button class="pay" data-pay="Débito">💳 Débito</button>
+       <button class="pay" data-pay="Fiado">◷ Fiado</button>
+       <button class="pay" data-pay="Outro">Outro</button>
+      </div>
+     </div>
+
+     <button class="btn primary full" id="finishSale">✓ Finalizar venda</button>
+     <button class="btn soft full" id="clearCart" style="margin-top:8px">Limpar comanda</button>
+     <div class="footnote">A venda será vinculada ao evento selecionado.</div>
+    </div>
+   </div>
+  </section>
+
+  <section class="page" id="page-clients">
+   <div class="page-heading">
+    <div><div class="eyebrow">RELACIONAMENTO</div><h2>Clientes</h2><p>Cadastre e mantenha os contatos organizados.</p></div>
+    <button class="btn primary" id="newClient">＋ Novo cliente</button>
+   </div>
+   <div class="panel">
+    <div class="toolbar"><input class="search" id="clientSearch" placeholder="Buscar por nome ou telefone..."></div>
+    <div id="clientsTable"></div>
+   </div>
+  </section>
+
+  <section class="page" id="page-products">
+   <div class="page-heading">
+    <div><div class="eyebrow">CATÁLOGO</div><h2>Produtos</h2><p>Gerencie itens, custos e preços de venda.</p></div>
+    <button class="btn primary" id="newProduct">＋ Novo produto</button>
+   </div>
+   <div class="panel">
+    <div class="toolbar"><input class="search" id="manageProductSearch" placeholder="Buscar produto..."></div>
+    <div id="productsTable"></div>
+   </div>
+  </section>
+
+  <section class="page" id="page-debts">
+   <div class="page-heading">
+    <div><div class="eyebrow">CONTROLE DE RECEBÍVEIS</div><h2>Fiados e cobranças</h2><p>Acompanhe pendências e registre pagamentos.</p></div>
+   </div>
+   <div class="notice" id="debtNotice">Nenhum valor pendente neste evento.</div>
+   <div class="panel">
+    <div class="panel-head">
+     <div><h3>Contas em aberto</h3><div class="panel-sub">Você decide quando enviar a cobrança pelo WhatsApp.</div></div>
+     <button class="btn success" id="copyDebts">Copiar resumo</button>
+    </div>
+    <div id="debtsTable"></div>
+   </div>
+  </section>
+
+  <section class="page" id="page-expenses">
+   <div class="page-heading">
+    <div><div class="eyebrow">CONTROLE DE CUSTOS</div><h2>Despesas</h2><p>Registre os gastos vinculados ao evento atual.</p></div>
+   </div>
+   <div class="grid two-col">
+    <div class="panel">
+     <h3 style="margin-bottom:17px">Lançar despesa</h3>
+     <div class="field"><label>DESCRIÇÃO</label><input id="expenseDesc" placeholder="Ex.: Compra de bebidas"></div>
+     <div class="field"><label>VALOR (R$)</label><input id="expenseValue" type="number" min=".01" step=".01" placeholder="0,00"></div>
+     <button class="btn primary full" id="addExpense">＋ Registrar despesa</button>
+    </div>
+    <div class="panel">
+     <div class="panel-head"><div><h3>Despesas do evento</h3><div class="panel-sub">Lançamentos registrados</div></div><span class="badge" id="expenseTotal">R$ 0,00</span></div>
+     <div id="expensesList"></div>
+    </div>
+   </div>
+  </section>
+
+  <section class="page" id="page-reports">
+   <div class="page-heading">
+    <div><div class="eyebrow">ANÁLISE E RESULTADOS</div><h2>Relatórios</h2><p>Visão consolidada da movimentação do evento.</p></div>
+    <button class="btn primary" id="exportReport">⇩ Exportar CSV</button>
+   </div>
+   <div class="grid stats">
+    <div class="stat"><div class="label">Faturamento</div><strong id="rSales">R$ 0,00</strong></div>
+    <div class="stat"><div class="label">Recebido</div><strong id="rReceived">R$ 0,00</strong></div>
+    <div class="stat"><div class="label">Pendências</div><strong id="rDebt">R$ 0,00</strong></div>
+    <div class="stat"><div class="label">Despesas</div><strong id="rExpenses">R$ 0,00</strong></div>
+   </div>
+   <div class="panel">
+    <div class="panel-head"><div><h3>Histórico de vendas</h3><div class="panel-sub">Detalhamento das comandas</div></div><button class="btn soft" id="copyReport">Copiar relatório</button></div>
+    <div id="salesTable"></div>
+   </div>
+   <div class="panel">
+    <div class="panel-head"><div><h3>Resumo de eventos</h3><div class="panel-sub">Comparativo de resultados cadastrados</div></div></div>
+    <div id="eventsReport"></div>
+   </div>
+  </section>
+
+  <section class="page" id="page-settings">
+   <div class="page-heading">
+    <div><div class="eyebrow">PREFERÊNCIAS E DADOS</div><h2>Configurações</h2><p>Gerencie eventos, conexão e segurança dos seus dados.</p></div>
+   </div>
+
+   <div class="grid two-col">
+    <div class="panel">
+     <h3 style="margin-bottom:15px">Novo evento</h3>
+     <div class="field"><label>NOME DO EVENTO</label><input id="eventName" placeholder="Ex.: Festa de encerramento"></div>
+     <div class="field"><label>DATA</label><input id="eventDate" type="date"></div>
+     <button class="btn primary full" id="createEvent">＋ Criar evento</button>
+     <div style="margin-top:20px" id="eventList"></div>
+    </div>
+
+    <div class="panel">
+     <h3>Conexão com Supabase</h3>
+     <p class="panel-sub" style="line-height:1.7;margin:8px 0 15px">Conecte seu projeto para sincronizar os dados entre dispositivos. A autenticação é feita pela sua conta Supabase.</p>
+     <div class="badge" id="connectionBadge">MODO LOCAL</div>
+     <div class="field" style="margin-top:15px"><label>SUPABASE PROJECT URL</label><input id="sbUrl" placeholder="https://seu-projeto.supabase.co"></div>
+     <div class="field"><label>SUPABASE ANON / PUBLISHABLE KEY</label><input id="sbKey" placeholder="Sua chave pública (anon)"></div>
+     <button class="btn primary full" id="connectSupabase">Salvar conexão</button>
+     <div class="footnote">Nunca coloque a service_role key no navegador. Use apenas a chave pública e políticas RLS.</div>
+
+     <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
+
+     <h3 style="margin-bottom:12px">Conta Supabase</h3>
+     <div class="field"><label>E-MAIL</label><input id="authEmail" type="email" placeholder="seu@email.com"></div>
+     <div class="field"><label>SENHA</label><input id="authPassword" type="password" placeholder="Sua senha"></div>
+     <div class="grid" style="grid-template-columns:1fr 1fr">
+      <button class="btn dark" id="signIn">Entrar</button>
+      <button class="btn soft" id="signUp">Criar conta</button>
+     </div>
+     <button class="btn danger full" id="signOut" style="margin-top:9px">Sair da conta</button>
+     <p class="footnote" id="authMessage">Configure a conexão para habilitar o acesso.</p>
+    </div>
+   </div>
+
+   <div class="panel">
+    <h3>Armazenamento local</h3>
+    <p class="panel-sub" style="margin:8px 0 15px">Sem Supabase, os dados ficam salvos neste navegador e dispositivo.</p>
+    <div class="actions">
+     <button class="btn soft" id="backupData">Baixar backup JSON</button>
+     <label class="btn soft" for="restoreFile">Restaurar backup</label>
+     <input id="restoreFile" type="file" accept="application/json" hidden>
+     <button class="btn danger" id="resetData">Restaurar dados de demonstração</button>
+    </div>
+   </div>
+  </section>
+
+ </div>
+</main>
+</div>
+
+<div class="modal-backdrop" id="modal">
+ <div class="modal">
+  <h3 id="modalTitle">Cadastro</h3>
+  <p id="modalDescription">Preencha as informações abaixo.</p>
+  <div id="modalFields"></div>
+  <div class="actions" style="justify-content:flex-end;margin-top:14px">
+   <button class="btn soft" id="modalCancel">Cancelar</button>
+   <button class="btn primary" id="modalSave">Salvar</button>
+  </div>
+ </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+
+const SUPABASE_TABLE='entre_tacas_data';
+const $=id=>document.getElementById(id);
+const money=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const uid=()=>Date.now()+Math.floor(Math.random()*1000);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const today=()=>new Date().toISOString().slice(0,10);
+
+const seed=()=>({
+ events:[{id:1,name:'Evento de demonstração',date:today()}],
+ clients:[],
+ products:[
+  {id:1,name:'Refrigerante',price:6,cost:3},
+  {id:2,name:'Espeto',price:12,cost:6},
+  {id:3,name:'Doce',price:5,cost:2}
+ ],
+ sales:[],
+ expenses:[]
+});
+
+let data=JSON.parse(localStorage.getItem('entreTacasData')||'null')||seed();
+let eventId=data.events[0]?.id||null;
+let cart=[];
+let payment='Dinheiro';
+let sb=null;
+let user=null;
+let modalSaveAction=null;
+
+function toast(t){
+ $('toast').textContent=t;
+ $('toast').classList.add('show');
+ setTimeout(()=>$('toast').classList.remove('show'),2600);
+}
+
+function activeEvent(){
+ return data.events.find(e=>String(e.id)===String(eventId));
+}
+
+function eventSales(){
+ return data.sales.filter(s=>String(s.eventId)===String(eventId));
+}
+
+function eventExpenses(){
+ return data.expenses.filter(e=>String(e.eventId)===String(eventId));
+}
+
+function sum(a,fn){
+ return a.reduce((n,x)=>n+fn(x),0);
+}
+
+function debts(){
+ return eventSales().filter(s=>!s.paid);
+}
+
+function customerDebt(id){
+ return sum(data.sales.filter(s=>String(s.clientId)===String(id)&&!s.paid),s=>s.balance??s.total);
+}
+
+function save(){
+ localStorage.setItem('entreTacasData',JSON.stringify(data));
+
+ if(sb&&user){
+  clearTimeout(save.timer);
+  save.timer=setTimeout(async()=>{
+   const {error}=await sb.from(SUPABASE_TABLE).upsert({
+    user_id:user.id,
+    data,
+    updated_at:new Date().toISOString()
+   },{onConflict:'user_id'});
+
+   if(error){
+    toast('Falha ao sincronizar: '+error.message);
+   }else{
+    $('authStatus').textContent='Sincronizado com Supabase';
+   }
+  },450);
+ }
+
+ render();
+}
+
+function setEventOptions(){
+ const sel=$('eventSelect');
+ sel.innerHTML=data.events.map(e=>`<option value="${e.id}">${esc(e.name)} · ${esc(e.date)}</option>`).join('')||'<option value="">Nenhum evento</option>';
+ sel.value=eventId??'';
+}
+
+function go(page){
+ document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+page));
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+
+ const labels={
+  dashboard:'Visão geral',
+  pdv:'Ponto de venda',
+  clients:'Clientes',
+  products:'Produtos',
+  debts:'Fiados e cobranças',
+  expenses:'Despesas',
+  reports:'Relatórios',
+  settings:'Configurações'
+ };
+
+ $('pageTitle').textContent=labels[page]||'Entre Taças';
+ $('sidebar').classList.remove('open');
+ render();
+}
+
+function eventStats(){
+ const sales=eventSales();
+ const expenses=eventExpenses();
+ const total=sum(sales,s=>s.total);
+ const received=sum(sales.filter(s=>s.paid),s=>s.total);
+ const debt=sum(sales.filter(s=>!s.paid),s=>s.balance??s.total);
+ const cost=sum(expenses,e=>e.value);
+
+ return{
+  sales:total,
+  received,
+  debt,
+  expenses:cost,
+  profit:total-cost
+ };
+}
+
+function render(){
+ setEventOptions();
+
+ const st=eventStats();
+
+ $('sSales').textContent=money(st.sales);
+ $('sReceived').textContent=money(st.received);
+ $('sDebt').textContent=money(st.debt);
+ $('sProfit').textContent=money(st.profit);
+
+ $('rSales').textContent=money(st.sales);
+ $('rReceived').textContent=money(st.received);
+ $('rDebt').textContent=money(st.debt);
+ $('rExpenses').textContent=money(st.expenses);
+
+ $('dashboardBars').innerHTML=[
+  ['Vendas',st.sales,'#81334e'],
+  ['Recebido',st.received,'#39866a'],
+  ['Despesas',st.expenses,'#c9a66b'],
+  ['Em aberto',st.debt,'#bd7a43']
+ ].map(([n,v,c])=>`
+  <div style="margin:13px 0">
+   <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:6px">
+    <b>${n}</b><span>${money(v)}</span>
+   </div>
+   <div style="height:8px;background:#f3edef;border-radius:20px;overflow:hidden">
+    <div style="height:100%;width:${st.sales?Math.min(100,v/Math.max(st.sales,st.expenses,1)*100):0}%;background:${c};border-radius:20px;transition:width .5s"></div>
+   </div>
+  </div>
+ `).join('');
+
+ $('recentSales').innerHTML=eventSales().slice(-5).reverse().map(s=>`
+  <div class="cart-line">
+   <span>
+    <b>${esc(s.clientName)}</b><br>
+    <small class="muted">${esc(s.itemsText)} · ${esc(s.date)}</small>
+   </span>
+   <span style="text-align:right">
+    <b>${money(s.total)}</b><br>
+    <span class="badge ${s.paid?'ok':'warn'}">${s.paid?esc(s.payment):'Fiado'}</span>
+   </span>
+  </div>
+ `).join('')||'<div class="empty">As vendas deste evento aparecerão aqui.</div>';
+
+ const clientOpts=data.clients.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('');
+ $('saleClient').innerHTML='<option value="">Selecione um cliente</option>'+clientOpts;
+
+ $('pdvProducts').innerHTML=data.products.filter(p=>p.name.toLowerCase().includes(($('productSearch').value||'').toLowerCase())).map(p=>`
+  <button class="product" data-add="${p.id}">
+   <span style="font-size:19px">◇</span>
+   <b>${esc(p.name)}</b>
+   <span class="price">${money(p.price)}</span><br>
+   <small>Adicionar à comanda +</small>
+  </button>
+ `).join('')||'<div class="empty">Nenhum produto cadastrado.</div>';
+
+ $('cartLines').innerHTML=cart.map(i=>`
+  <div class="cart-line">
+   <span><b>${esc(i.name)}</b><br><small class="muted">${money(i.price)} cada</small></span>
+   <span class="qty">
+    <button data-dec="${i.id}">−</button>
+    ${i.qty}
+    <button data-inc="${i.id}">+</button>
+    <b>${money(i.price*i.qty)}</b>
+   </span>
+  </div>
+ `).join('')||'<div class="empty">Sua comanda está vazia.</div>';
+
+ $('cartCount').textContent=cart.reduce((n,i)=>n+i.qty,0)+' itens';
+ $('cartTotal').textContent=money(sum(cart,i=>i.price*i.qty));
+
+ $('clientsTable').innerHTML=table(
+  ['Cliente','WhatsApp','Em aberto','Ações'],
+  data.clients.filter(c=>(c.name+' '+c.phone).toLowerCase().includes(($('clientSearch').value||'').toLowerCase())).map(c=>[
+   `<b>${esc(c.name)}</b>`,
+   `<span class="muted">${esc(c.phone||'Não informado')}</span>`,
+   money(customerDebt(c.id)),
+   `<div class="actions">
+    <button class="icon-btn" data-edit-client="${c.id}">Editar</button>
+    <button class="icon-btn" data-wa-client="${c.id}">WhatsApp</button>
+    <button class="icon-btn" data-del-client="${c.id}">Excluir</button>
+   </div>`
+  ])
+ );
+
+ $('productsTable').innerHTML=table(
+  ['Produto','Preço de venda','Custo','Margem bruta','Ações'],
+  data.products.filter(p=>p.name.toLowerCase().includes(($('manageProductSearch').value||'').toLowerCase())).map(p=>[
+   `<b>${esc(p.name)}</b>`,
+   money(p.price),
+   money(p.cost),
+   money(p.price-p.cost),
+   `<div class="actions">
+    <button class="icon-btn" data-edit-product="${p.id}">Editar</button>
+    <button class="icon-btn" data-del-product="${p.id}">Excluir</button>
+   </div>`
+  ])
+ );
+
+ const ds=debts();
+
+ $('debtNotice').textContent=ds.length
+  ?`${ds.length} venda(s) em aberto · Total pendente: ${money(st.debt)}`
+  :'Nenhum valor pendente neste evento. Tudo em dia!';
+
+ $('debtsTable').innerHTML=table(
+  ['Cliente','Venda','Saldo pendente','Data','Ações'],
+  ds.map(s=>[
+   `<b>${esc(s.clientName)}</b><br><small class="muted">${esc(s.itemsText)}</small>`,
+   money(s.total),
+   `<b style="color:var(--red)">${money(s.balance??s.total)}</b>`,
+   s.date,
+   `<div class="actions">
+    <button class="icon-btn" data-charge="${s.id}">WhatsApp</button>
+    <button class="icon-btn" data-receive="${s.id}">Registrar pagamento</button>
+   </div>`
+  ])
+ );
+
+ $('expensesList').innerHTML=eventExpenses().map(e=>`
+  <div class="cart-line">
+   <span><b>${esc(e.description)}</b><br><small class="muted">${e.date}</small></span>
+   <span><b>${money(e.value)}</b> <button class="icon-btn" data-del-expense="${e.id}">Excluir</button></span>
+  </div>
+ `).join('')||'<div class="empty">Nenhuma despesa lançada.</div>';
+
+ $('expenseTotal').textContent=money(st.expenses);
+
+ $('salesTable').innerHTML=table(
+  ['Data','Cliente','Itens','Pagamento','Total'],
+  eventSales().slice().reverse().map(s=>[
+   s.date,
+   esc(s.clientName),
+   esc(s.itemsText),
+   `<span class="badge ${s.paid?'ok':'warn'}">${s.paid?esc(s.payment):'Fiado'}</span>`,
+   money(s.total)
+  ])
+ );
+
+ $('eventsReport').innerHTML=table(
+  ['Evento','Data','Vendas','Despesas','Resultado'],
+  data.events.map(e=>{
+   const vs=data.sales.filter(s=>String(s.eventId)===String(e.id));
+   const ex=data.expenses.filter(x=>String(x.eventId)===String(e.id));
+   const v=sum(vs,s=>s.total);
+   const x=sum(ex,a=>a.value);
+   return[esc(e.name),e.date,money(v),money(x),money(v-x)];
+  })
+ );
+
+ $('eventList').innerHTML=data.events.map(e=>`
+  <div class="cart-line">
+   <span><b>${esc(e.name)}</b><br><small class="muted">${e.date}</small></span>
+   <span class="actions">
+    <button class="icon-btn" data-select-event="${e.id}">Selecionar</button>
+    <button class="icon-btn" data-delete-event="${e.id}">Excluir</button>
+   </span>
+  </div>
+ `).join('');
+}
+
+function table(headers,rows){
+ if(!rows.length)return'<div class="empty">Nenhum registro encontrado.</div>';
+
+ return`
+  <div class="table-wrap">
+   <table>
+    <thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead>
+    <tbody>
+     ${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}
+    </tbody>
+   </table>
+  </div>
+ `;
+}
+
+function openModal(title,desc,fields,initial,callback){
+ $('modalTitle').textContent=title;
+ $('modalDescription').textContent=desc;
+
+ $('modalFields').innerHTML=fields.map(f=>`
+  <div class="field">
+   <label>${f.label}</label>
+   <input
+    id="mf_${f.key}"
+    type="${f.type||'text'}"
+    value="${esc(initial?.[f.key]??'')}"
+    placeholder="${f.placeholder||''}"
+    ${f.min!==undefined?`min="${f.min}"`:''}
+    ${f.step?`step="${f.step}"`:''}
+   >
+  </div>
+ `).join('');
+
+ modalSaveAction=()=>{
+  const result={};
+  fields.forEach(f=>result[f.key]=$('mf_'+f.key).value.trim());
+  callback(result);
+ };
+
+ $('modal').classList.add('show');
+}
+
+function closeModal(){
+ $('modal').classList.remove('show');
+ modalSaveAction=null;
+}
+
+$('modalCancel').onclick=closeModal;
+$('modalSave').onclick=()=>modalSaveAction?.();
+
+// CORREÇÃO DO BOTÃO ENTRAR
+const enterButton=document.getElementById('enterBtn');
+const introScreen=document.getElementById('intro');
+
+if(enterButton&&introScreen){
+ enterButton.addEventListener('click',function(){
+  if(introScreen.dataset.entered==='true')return;
+
+  introScreen.dataset.entered='true';
+  introScreen.classList.add('hide');
+
+  window.setTimeout(function(){
+   introScreen.remove();
+  },750);
+ });
+}
+
+// NAVEGAÇÃO
+document.querySelectorAll('.nav button').forEach(b=>{
+ b.onclick=()=>go(b.dataset.page);
+});
+
+document.querySelectorAll('[data-goto]').forEach(b=>{
+ b.onclick=()=>go(b.dataset.goto);
+});
+
+$('menuBtn').onclick=()=>$('sidebar').classList.toggle('open');
+
+$('eventSelect').onchange=e=>{
+ eventId=e.target.value;
+ cart=[];
+ render();
+};
+
+$('quickEvent').onclick=()=>go('settings');
+
+$('productSearch').oninput=render;
+$('clientSearch').oninput=render;
+$('manageProductSearch').oninput=render;
+
+// PRODUTOS E COMANDA
+$('pdvProducts').onclick=e=>{
+ const b=e.target.closest('[data-add]');
+ if(!b)return;
+
+ const p=data.products.find(x=>String(x.id)===b.dataset.add);
+ const item=cart.find(x=>x.id===p.id);
+
+ if(item)item.qty++;
+ else cart.push({...p,qty:1});
+
+ render();
+};
+
+$('cartLines').onclick=e=>{
+ const dec=e.target.closest('[data-dec]');
+ const inc=e.target.closest('[data-inc]');
+
+ if(!dec&&!inc)return;
+
+ const id=(dec||inc).dataset.dec||(dec||inc).dataset.inc;
+ const i=cart.find(x=>String(x.id)===id);
+
+ if(i){
+  i.qty+=inc?1:-1;
+
+  if(i.qty<=0){
+   cart=cart.filter(x=>x.id!==i.id);
+  }
+ }
+
+ render();
+};
+
+$('paymentMethods').onclick=e=>{
+ const b=e.target.closest('[data-pay]');
+ if(!b)return;
+
+ payment=b.dataset.pay;
+
+ document.querySelectorAll('.pay').forEach(x=>{
+  x.classList.toggle('selected',x===b);
+ });
+};
+
+$('clearCart').onclick=()=>{
+ cart=[];
+ render();
+};
+
+$('finishSale').onclick=()=>{
+ const c=data.clients.find(x=>String(x.id)===$('saleClient').value);
+
+ if(!c)return toast('Selecione um cliente.');
+ if(!cart.length)return toast('Adicione pelo menos um produto.');
+
+ const total=sum(cart,i=>i.price*i.qty);
+ const itemsText=cart.map(i=>`${i.qty}x ${i.name}`).join(', ');
+
+ data.sales.push({
+  id:uid(),
+  eventId,
+  clientId:c.id,
+  clientName:c.name,
+  phone:c.phone,
+  itemsText,
+  items:cart.map(i=>({...i})),
+  total,
+  payment,
+  paid:payment!=='Fiado',
+  balance:payment==='Fiado'?total:0,
+  date:today()
+ });
+
+ cart=[];
+ save();
+
+ toast(payment==='Fiado'?'Fiado registrado com sucesso.':'Venda registrada com sucesso.');
+
+ if(payment==='Fiado'&&c.phone){
+  if(confirm('Deseja abrir o WhatsApp para enviar uma mensagem ao cliente?')){
+   whatsapp(c.phone,`Olá, ${c.name}! Foi registrado um valor de ${money(total)} em aberto referente a ${activeEvent()?.name||'seu evento'}. Obrigado!`);
+  }
+ }
+};
+
+// CLIENTES
+$('newClient').onclick=()=>{
+ openModal(
+  'Novo cliente',
+  'Adicione os dados para contato.',
+  [
+   {key:'name',label:'NOME COMPLETO'},
+   {key:'phone',label:'WHATSAPP (COM DDD)',placeholder:'5543999999999'}
+  ],
+  {},
+  v=>{
+   if(!v.name)return toast('Informe o nome do cliente.');
+
+   data.clients.push({
+    id:uid(),
+    name:v.name,
+    phone:v.phone.replace(/\D/g,'')
+   });
+
+   closeModal();
+   save();
+   toast('Cliente cadastrado!');
+  }
+ );
+};
+
+// PRODUTOS
+$('newProduct').onclick=()=>{
+ openModal(
+  'Novo produto',
+  'Informe preço de venda e custo unitário.',
+  [
+   {key:'name',label:'NOME'},
+   {key:'price',label:'PREÇO DE VENDA',type:'number',min:0,step:'.01'},
+   {key:'cost',label:'CUSTO UNITÁRIO',type:'number',min:0,step:'.01'}
+  ],
+  {},
+  v=>{
+   if(!v.name||!Number.isFinite(+v.price)||+v.price<=0||+v.cost<0){
+    return toast('Confira nome, preço e custo.');
+   }
+
+   data.products.push({
+    id:uid(),
+    name:v.name,
+    price:+v.price,
+    cost:+v.cost||0
+   });
+
+   closeModal();
+   save();
+   toast('Produto cadastrado!');
+  }
+ );
+};
+
+$('clientsTable').onclick=e=>{
+ let b=e.target.closest('button');
+ if(!b)return;
+
+ let c=data.clients.find(x=>String(x.id)===Object.values(b.dataset)[0]);
+
+ if(b.dataset.editClient){
+  openModal(
+   'Editar cliente',
+   'Atualize as informações.',
+   [
+    {key:'name',label:'NOME'},
+    {key:'phone',label:'WHATSAPP'}
+   ],
+   c,
+   v=>{
+    if(!v.name)return toast('Informe o nome.');
+    c.name=v.name;
+    c.phone=v.phone.replace(/\D/g,'');
+    closeModal();
+    save();
+   }
+  );
+ }else if(b.dataset.waClient){
+  if(!c.phone)return toast('Este cliente não possui WhatsApp cadastrado.');
+  whatsapp(c.phone,`Olá, ${c.name}! Tudo bem?`);
+ }else if(b.dataset.delClient){
+  if(data.sales.some(s=>String(s.clientId)===String(c.id))){
+   return toast('Não é possível excluir: cliente possui vendas vinculadas.');
+  }
+
+  if(confirm(`Excluir ${c.name}?`)){
+   data.clients=data.clients.filter(x=>x.id!==c.id);
+   save();
+  }
+ }
+};
+
+$('productsTable').onclick=e=>{
+ let b=e.target.closest('button');
+ if(!b)return;
+
+ let id=b.dataset.editProduct||b.dataset.delProduct;
+ let p=data.products.find(x=>String(x.id)===id);
+
+ if(b.dataset.editProduct){
+  openModal(
+   'Editar produto',
+   'Atualize os dados do produto.',
+   [
+    {key:'name',label:'NOME'},
+    {key:'price',label:'PREÇO',type:'number',min:0,step:'.01'},
+    {key:'cost',label:'CUSTO',type:'number',min:0,step:'.01'}
+   ],
+   p,
+   v=>{
+    if(!v.name||+v.price<=0||+v.cost<0)return toast('Confira os dados.');
+
+    Object.assign(p,{
+     name:v.name,
+     price:+v.price,
+     cost:+v.cost||0
+    });
+
+    closeModal();
+    save();
+   }
+  );
+ }else if(confirm(`Excluir ${p.name}?`)){
+  data.products=data.products.filter(x=>x.id!==p.id);
+  save();
+ }
+};
+
+// WHATSAPP
+function whatsapp(phone,text){
+ const n=String(phone||'').replace(/\D/g,'');
+
+ if(!n)return toast('WhatsApp não cadastrado.');
+
+ window.open(
+  `https://wa.me/${n}?text=${encodeURIComponent(text)}`,
+  '_blank',
+  'noopener'
+ );
+}
+
+// FIADOS E PAGAMENTOS
+$('debtsTable').onclick=e=>{
+ const b=e.target.closest('button');
+ if(!b)return;
+
+ const s=data.sales.find(x=>String(x.id)===(b.dataset.charge||b.dataset.receive));
+
+ if(b.dataset.charge){
+  if(!s.phone)return toast('Cliente sem WhatsApp cadastrado.');
+
+  whatsapp(
+   s.phone,
+   `Olá, ${s.clientName}! Você possui um saldo pendente de ${money(s.balance??s.total)} referente a ${activeEvent()?.name||'nosso evento'}. Obrigado!`
+  );
+
+ }else if(b.dataset.receive){
+
+  openModal(
+   'Registrar recebimento',
+   'Informe o valor que o cliente pagou agora.',
+   [{
+    key:'amount',
+    label:`VALOR RECEBIDO (SALDO: ${money(s.balance??s.total)})`,
+    type:'number',
+    min:'.01',
+    step:'.01'
+   }],
+   {amount:(s.balance??s.total).toFixed(2)},
+   v=>{
+    const amount=Number(v.amount);
+    const balance=s.balance??s.total;
+
+    if(!amount||amount<=0||amount>balance){
+     return toast('Informe um valor válido, até o saldo pendente.');
+    }
+
+    s.balance=+(balance-amount).toFixed(2);
+
+    if(s.balance<.005){
+     s.balance=0;
+     s.paid=true;
+     s.payment='Fiado quitado';
+    }
+
+    s.payments=s.payments||[];
+    s.payments.push({amount,date:today()});
+
+    closeModal();
+    save();
+
+    toast(s.paid?'Pendência quitada!':'Pagamento parcial registrado!');
+   }
+  );
+ }
+};
+
+$('copyDebts').onclick=async()=>{
+ const txt=debts().map(s=>`${s.clientName}: ${money(s.balance??s.total)}`).join('\n')||'Nenhuma pendência';
+
+ await navigator.clipboard.writeText(
+  `PENDÊNCIAS — ${activeEvent()?.name||''}\n${txt}`
+ );
+
+ toast('Resumo copiado!');
+};
+
+// DESPESAS
+$('addExpense').onclick=()=>{
+ const description=$('expenseDesc').value.trim();
+ const value=Number($('expenseValue').value);
+
+ if(!description||!value||value<=0){
+  return toast('Informe descrição e valor válido.');
+ }
+
+ data.expenses.push({
+  id:uid(),
+  eventId,
+  description,
+  value,
+  date:today()
+ });
+
+ $('expenseDesc').value='';
+ $('expenseValue').value='';
+
+ save();
+ toast('Despesa registrada!');
+};
+
+$('expensesList').onclick=e=>{
+ const b=e.target.closest('[data-del-expense]');
+
+ if(b&&confirm('Excluir esta despesa?')){
+  data.expenses=data.expenses.filter(x=>String(x.id)!==b.dataset.delExpense);
+  save();
+ }
+};
+
+// EVENTOS
+$('createEvent').onclick=()=>{
+ const name=$('eventName').value.trim();
+ const date=$('eventDate').value;
+
+ if(!name||!date)return toast('Preencha o nome e a data.');
+
+ const e={id:uid(),name,date};
+
+ data.events.push(e);
+ eventId=e.id;
+
+ $('eventName').value='';
+ $('eventDate').value='';
+
+ save();
+ toast('Evento criado!');
+};
+
+$('eventList').onclick=e=>{
+ const b=e.target.closest('button');
+ if(!b)return;
+
+ if(b.dataset.selectEvent){
+  eventId=b.dataset.selectEvent;
+  render();
+  toast('Evento selecionado.');
+ }
+
+ if(b.dataset.deleteEvent){
+  const id=b.dataset.deleteEvent;
+
+  if(data.events.length===1)return toast('Mantenha pelo menos um evento.');
+
+  if(data.sales.some(s=>String(s.eventId)===id)||data.expenses.some(x=>String(x.eventId)===id)){
+   return toast('Este evento possui movimentações e não pode ser excluído.');
+  }
+
+  if(confirm('Excluir este evento?')){
+   data.events=data.events.filter(x=>String(x.id)!==id);
+   eventId=data.events[0].id;
+   save();
+  }
+ }
+};
+
+// RELATÓRIOS
+function reportText(){
+ return[
+  `RELATÓRIO — ${activeEvent()?.name||''}`,
+  `Vendas: ${money(eventStats().sales)}`,
+  `Recebido: ${money(eventStats().received)}`,
+  `Em aberto: ${money(eventStats().debt)}`,
+  `Despesas: ${money(eventStats().expenses)}`,
+  `Resultado estimado: ${money(eventStats().profit)}`,
+  ...eventSales().map(s=>`${s.date} | ${s.clientName} | ${s.itemsText} | ${money(s.total)} | ${s.paid?s.payment:'FIADO'}`)
+ ].join('\n');
+}
+
+$('copyReport').onclick=async()=>{
+ await navigator.clipboard.writeText(reportText());
+ toast('Relatório copiado!');
+};
+
+$('exportReport').onclick=()=>{
+ const rows=[
+  ['Data','Cliente','Itens','Pagamento','Total'],
+  ...eventSales().map(s=>[
+   s.date,
+   s.clientName,
+   s.itemsText,
+   s.paid?s.payment:'Fiado',
+   s.total
+  ])
+ ];
+
+ const csv='\ufeff'+rows.map(r=>
+  r.map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(';')
+ ).join('\n');
+
+ download(csv,'relatorio-entre-tacas.csv','text/csv;charset=utf-8');
+};
+
+function download(content,name,type){
+ const a=document.createElement('a');
+ const url=URL.createObjectURL(new Blob([content],{type}));
+
+ a.href=url;
+ a.download=name;
+ a.click();
+
+ URL.revokeObjectURL(url);
+}
+
+// BACKUP
+$('backupData').onclick=()=>{
+ download(
+  JSON.stringify(data,null,2),
+  'backup-entre-tacas.json',
+  'application/json'
+ );
+};
+
+$('restoreFile').onchange=async e=>{
+ try{
+  const obj=JSON.parse(await e.target.files[0].text());
+
+  if(!obj.events||!obj.clients||!obj.products||!obj.sales||!obj.expenses){
+   throw Error();
+  }
+
+  data=obj;
+  eventId=data.events[0]?.id;
+
+  save();
+  toast('Backup restaurado!');
+
+ }catch{
+  toast('Arquivo de backup inválido.');
+ }
+
+ e.target.value='';
+};
+
+$('resetData').onclick=()=>{
+ if(confirm('Isso substituirá os dados atuais pelos dados de demonstração. Continuar?')){
+  data=seed();
+  eventId=data.events[0].id;
+  cart=[];
+  save();
+  toast('Dados de demonstração restaurados.');
+ }
+};
+
+// SUPABASE
+$('connectSupabase').onclick=async()=>{
+ const url=$('sbUrl').value.trim();
+ const key=$('sbKey').value.trim();
+
+ if(!url||!key)return toast('Informe URL e chave pública.');
+
+ try{
+  sb=window.supabase.createClient(url,key);
+
+  localStorage.setItem('entreTacasSupabase',JSON.stringify({url,key}));
+
+  $('connectionBadge').textContent='CONECTADO AO PROJETO';
+  $('sideMode').textContent='Supabase configurado';
+  $('authMessage').textContent='Conexão configurada. Entre ou crie sua conta.';
+
+  toast('Configuração salva. Faça login para sincronizar.');
+
+ }catch(err){
+  toast('Não foi possível configurar: '+err.message);
+ }
+};
+
+async function loadCloud(){
+ if(!sb||!user)return;
+
+ const {data:row,error}=await sb
+  .from(SUPABASE_TABLE)
+  .select('data')
+  .eq('user_id',user.id)
+  .maybeSingle();
+
+ if(error){
+  toast('Erro ao carregar dados: '+error.message);
+  return;
+ }
+
+ if(row?.data){
+  data=row.data;
+  eventId=data.events?.[0]?.id??null;
+ }else{
+  await sb.from(SUPABASE_TABLE).upsert({
+   user_id:user.id,
+   data,
+   updated_at:new Date().toISOString()
+  },{onConflict:'user_id'});
+ }
+
+ localStorage.setItem('entreTacasData',JSON.stringify(data));
+
+ $('authStatus').textContent='Conta sincronizada';
+ $('sideMode').textContent='Sincronizado com Supabase';
+
+ render();
+}
+
+$('signIn').onclick=async()=>{
+ if(!sb)return toast('Configure o Supabase primeiro.');
+
+ const {data:d,error}=await sb.auth.signInWithPassword({
+  email:$('authEmail').value,
+  password:$('authPassword').value
+ });
+
+ if(error)return toast(error.message);
+
+ user=d.user;
+
+ await loadCloud();
+
+ $('authMessage').textContent='Sessão iniciada: '+user.email;
+
+ toast('Login realizado!');
+};
+
+$('signUp').onclick=async()=>{
+ if(!sb)return toast('Configure o Supabase primeiro.');
+
+ const {data:d,error}=await sb.auth.signUp({
+  email:$('authEmail').value,
+  password:$('authPassword').value
+ });
+
+ if(error)return toast(error.message);
+
+ $('authMessage').textContent=d.session
+  ?'Conta criada e conectada.'
+  :'Conta criada. Verifique seu e-mail para confirmar o cadastro.';
+
+ if(d.user&&d.session){
+  user=d.user;
+  await loadCloud();
+ }
+};
+
+$('signOut').onclick=async()=>{
+ if(!sb)return;
+
+ if(!confirm('Deseja sair da conta?'))return;
+
+ await sb.auth.signOut();
+
+ user=null;
+
+ $('authStatus').textContent='Dados salvos neste navegador';
+ $('sideMode').textContent='Modo local';
+
+ toast('Sessão encerrada.');
+};
+
+async function initCloud(){
+ const cfg=JSON.parse(localStorage.getItem('entreTacasSupabase')||'null');
+
+ if(!cfg)return;
+
+ $('sbUrl').value=cfg.url;
+ $('sbKey').value=cfg.key;
+
+ sb=window.supabase.createClient(cfg.url,cfg.key);
+
+ $('connectionBadge').textContent='PROJETO CONFIGURADO';
+
+ const {data:d}=await sb.auth.getSession();
+
+ if(d.session){
+  user=d.session.user;
+  await loadCloud();
+ }
+
+ sb.auth.onAuthStateChange((_event,session)=>{
+  user=session?.user||null;
+
+  if(!user){
+   $('authStatus').textContent='Dados salvos neste navegador';
+  }
+ });
+}
+
+initCloud();
+render();
+
+</script>
+</body>
+</html>
